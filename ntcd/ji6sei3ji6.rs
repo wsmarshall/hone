@@ -2,6 +2,10 @@ use std::collections::HashMap;
 
 impl Solution {
     pub fn is_anagram(s: String, t: String) -> bool {
+        if (s.chars().count() != t.chars().count()) {
+            return false;
+        }
+
         let mut s_map = HashMap::<char, i32>::new();
         let mut t_map = HashMap::<char, i32>::new();
 
