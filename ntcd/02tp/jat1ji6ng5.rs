@@ -4,7 +4,7 @@ impl Solution {
         if (s == " " || s == "") {
             return true;
         }
-        let input: String = s.chars().filter(|a| a.is_alphabetic()).collect();
+        let input: String = s.chars().filter(|a| a.is_alphanumeric()).collect();
         let check: String = input.to_lowercase();
 
         let mut start = 0;
