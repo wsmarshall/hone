@@ -1,5 +1,7 @@
 pub trait Summary {
-    fn summarize(&self) -> String;
+    fn summarize(&self) -> String {
+        String::from("[Default string from Summary Trait]")
+    }
 }
 
 pub struct NewsArticle {
