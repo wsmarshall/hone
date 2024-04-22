@@ -8,7 +8,7 @@ struct Inventory {
     shirts: Vec<ShirtColor>,
 }
 
-impl Inventor {
+impl Inventory {
     fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
         user_preference.unwrap_or_else(|| self.most_stocked())
     }
@@ -49,4 +49,10 @@ fn main() {
         "The user with preference {:?} gets {:?}",
         user_pref2, giveaway2
     );
+}
+
+let expensive_closure = |num: u32| -> u32 {
+    println!("calculating slowly...");
+    thread::sleep(Duration::from_secs(2));
+    num 
 }
