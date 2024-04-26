@@ -13,13 +13,13 @@ pub fn first_occurrence(list: &[usize], target: usize) -> Option<usize> {
     let mut mid = left + ((right - left) / 2);
 
     let mut current: Option<usize> = None;
-    let not_found = None;
+    let not_found: Option<usize> = None;
 
     while left <= right {
         mid = left + ((right - left) / 2); //to avoid overflow
         match list[mid].cmp(&target) {
             Equal => {
-                current = mid;
+                current = Option::Some(mid);
             }
             Less => left = mid + 1,
             Greater => {
@@ -35,7 +35,7 @@ pub fn first_occurrence(list: &[usize], target: usize) -> Option<usize> {
     }
 
     match current {
-        Some => return current,
-        _ => return None,
+        Some(usize) => return current,
+        _ => return not_found,
     }
 }
