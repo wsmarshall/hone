@@ -9,7 +9,7 @@ mod bo3_tests {
         let list: [usize; 7] = [1, 3, 3, 5, 8, 8, 10];
         let target = 2;
         //should return 2
-        assert_eq!(first_not_smaller(&list, target), 2);
+        assert_eq!(first_not_smaller(&list, target), 1);
     }
 
     #[test]

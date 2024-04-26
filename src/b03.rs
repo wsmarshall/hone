@@ -18,20 +18,17 @@ pub fn first_not_smaller(list: &[usize], target: usize) -> usize {
     while left <= right {
         mid = left + ((right - left) / 2); //to avoid overflow
         match list[mid].cmp(&target) {
-            Equal => {
+            Equal | Greater => {
                 current = mid;
-                right = mid - 1;
-            }
-            Less => left = mid + 1,
-            Greater => {
                 if right < 1 {
                     //avoids underflow from usize indexing
                     //particularly when right = 0
                     break;
                 } else {
-                    right = mid - 1
+                    right = mid - 1;
                 }
             }
+            Less => left = mid + 1,
         }
     }
 
