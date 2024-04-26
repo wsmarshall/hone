@@ -1,3 +1,6 @@
+mod b03;
+mod b03_tests;
+
 enum List {
     Cons(i32, Box<List>),
     Nil,
