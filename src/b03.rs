@@ -4,25 +4,23 @@
  * assume it is guaranteed to find such
 */
 
-mod b03 {
-    pub fn first_not_smaller(list: &[usize], target: usize) -> usize {
-        let length = list.len();
+pub fn first_not_smaller(list: &[usize], target: usize) -> usize {
+    let length = list.len();
 
-        let mut left = 0;
-        let mut right = length - 1; //guaranteed non-empty array
-        let mut mid = right / 2;
+    let mut left = 0;
+    let mut right = length - 1; //guaranteed non-empty array
+    let mut mid = right / 2;
 
-        let mut current: usize;
-        while left <= right {
-            if list[mid] >= target {
-                current = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-            mid = (left + (right - left)) / 2;
+    let mut current: usize = 0;
+    while left <= right {
+        if list[mid] >= target {
+            current = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
         }
-
-        current;
+        mid = (left + (right - left)) / 2;
     }
+
+    current
 }
