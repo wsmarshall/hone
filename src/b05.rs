@@ -5,7 +5,9 @@
 */
 use std::cmp::Ordering::*;
 
-pub fn square_root(list: &[usize], target: usize) -> Option<usize> {
+pub fn square_root(target: usize) -> Option<usize> {
+    //creates an array of integers from 0 to n
+    let list = [usize; target] = core::array::from_fn(|i| i);
     let length = list.len();
     //guarantees mean no need to check for empty list
 
@@ -19,9 +21,13 @@ pub fn square_root(list: &[usize], target: usize) -> Option<usize> {
     while left <= right {
         println!("just inside while");
         mid = left + ((right - left) / 2); //to avoid overflow
-        match list[mid].cmp(&target) {
-            Equal => {
-                println!("just inside equal case");
+        let num = list[mid];
+        let square = num * num;
+        match square.cmp(&target) {
+            //TODO think through this bit
+            Equal || Less => {
+                println!("just inside equal or less case");
+                left = mid + 1;
                 current = Option::Some(mid);
                 if mid < 1 {
                     println!("just inside equal if case");
@@ -33,7 +39,6 @@ pub fn square_root(list: &[usize], target: usize) -> Option<usize> {
                     right = mid - 1
                 }
             }
-            Less => left = mid + 1,
             Greater => {
                 println!("just inside greater case");
                 if right < 1 {
