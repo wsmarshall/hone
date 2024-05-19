@@ -29,15 +29,6 @@ pub fn square_root(target: usize) -> Option<usize> {
                 println!("just inside equal or less case");
                 left = mid + 1;
                 current = Option::Some(mid);
-                if mid < 1 {
-                    println!("just inside equal if case");
-                    //avoids underflow from usize indexing
-                    //particularly when right = 0
-                    break;
-                } else {
-                    println!("just inside equal else case");
-                    right = mid - 1
-                }
             }
             Greater => {
                 println!("just inside greater case");
