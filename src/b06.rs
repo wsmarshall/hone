@@ -6,7 +6,7 @@
 use std::cmp::Ordering::*;
 
 pub fn find_min_rotated(list: &[usize]) -> usize {
-    let length = list.length();
+    let length = list.len();
 
     let mut left = 0;
     let mut right = length - 1; //guaranteed non-empty array
@@ -22,20 +22,20 @@ pub fn find_min_rotated(list: &[usize]) -> usize {
         match num.cmp(&last) {
             Less => {
                 println!("just inside less case");
-                left = mid + 1;
-                current = Option::Some(mid);
-            }
-            Greater => {
-                println!("just inside greater case");
+                boundary = mid;
                 if right < 1 {
-                    println!("just inside greater if case");
+                    println!("just inside less if case");
                     //avoids underflow from usize indexing
                     //particularly when right = 0
                     break;
                 } else {
-                    println!("just inside greater else case");
+                    println!("just inside less else case");
                     right = mid - 1
                 }
+            }
+            Greater => {
+                println!("just inside greater case");
+                left = mid + 1;
             }
             Equal => {
                 //this case should not happen by assumption
@@ -44,8 +44,5 @@ pub fn find_min_rotated(list: &[usize]) -> usize {
         }
     }
 
-    match current {
-        Some(_) => return current,
-        _ => return not_found,
-    }
+    boundary
 }

@@ -8,36 +8,36 @@ mod bo6_tests {
     fn one() {
         let list = [30, 40, 50, 10, 20];
         //should return 3
-        assert_eq!(find_min_rotated(list), 3);
+        assert_eq!(find_min_rotated(&list), 3);
     }
 
     #[test]
     fn two() {
         let list = [0, 1, 2, 3, 4, 5];
         //should return 0
-        assert_eq!(find_min_rotated(list), 0);
+        assert_eq!(find_min_rotated(&list), 0);
     }
 
     #[test]
     fn three() {
         let list = [0];
         //should return 0
-        assert_eq!(find_min_rotated(list), 0);
+        assert_eq!(find_min_rotated(&list), 0);
     }
 
     #[test]
     fn four() {
         let list = [1, 2, 3, 5, 8, 0];
         //should return 5
-        assert_eq!(find_min_rotated(list), 5);
+        assert_eq!(find_min_rotated(&list), 5);
     }
 
-    #[test]
-    fn five() {
-        let target = 1;
-        //should return 1
-        assert_eq!(square_root(target), Some(1));
-    }
+    // #[test]
+    // fn five() {
+    //     let target = 1;
+    //     //should return 1
+    //     assert_eq!(find_min_rotated(target), 1);
+    // }
 
     // #[test]
     // fn six() {
