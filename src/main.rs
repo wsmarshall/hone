@@ -1,5 +1,5 @@
-mod b06;
-mod b06_tests;
+mod b07;
+mod b07_tests;
 
 fn main() {
     use crate::b06::find_min_rotated;
