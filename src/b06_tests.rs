@@ -2,7 +2,7 @@
 
 mod bo6_tests {
 
-    use crate::b06::square_root;
+    use crate::b06::find_min_rotated;
 
     #[test]
     fn one() {
