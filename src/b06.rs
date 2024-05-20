@@ -13,7 +13,7 @@ pub fn find_min_rotated(list: &[usize]) -> usize {
     let mut mid;
 
     let last = list[length - 1];
-    let mut boundary = length;
+    let mut boundary = length - 1;
 
     while left <= right {
         println!("just inside while");
@@ -23,23 +23,20 @@ pub fn find_min_rotated(list: &[usize]) -> usize {
             Less => {
                 println!("just inside less case");
                 boundary = mid;
-                if right < 1 {
+                if mid < 1 {
                     println!("just inside less if case");
                     //avoids underflow from usize indexing
                     //particularly when right = 0
                     break;
                 } else {
                     println!("just inside less else case");
+                    println!("left, right, mid = {}, {}, {}", left, right, mid);
                     right = mid - 1
                 }
             }
-            Greater => {
+            Greater | Equal => {
                 println!("just inside greater case");
                 left = mid + 1;
-            }
-            Equal => {
-                //this case should not happen by assumption
-                continue;
             }
         }
     }
