@@ -7,7 +7,10 @@ use std::cmp::Ordering::*;
 
 pub fn square_root(target: usize) -> Option<usize> {
     //creates an array of integers from 0 to n
-    let list = [usize; target] = core::array::from_fn(|i| i);
+    let mut list = Vec::new();
+    for i in 0..target + 1 {
+        list.push(i);
+    }
     let length = list.len();
     //guarantees mean no need to check for empty list
 
@@ -25,7 +28,7 @@ pub fn square_root(target: usize) -> Option<usize> {
         let square = num * num;
         match square.cmp(&target) {
             //TODO think through this bit
-            Equal || Less => {
+            Equal | Less => {
                 println!("just inside equal or less case");
                 left = mid + 1;
                 current = Option::Some(mid);

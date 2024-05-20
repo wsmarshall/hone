@@ -2,41 +2,41 @@
 
 mod bo5_tests {
 
-    use crate::b05::square_root
+    use crate::b05::square_root;
 
     #[test]
     fn one() {
         let target = 4;
         //should return 2
-        assert_eq!(first_occurrence(target), Some(2));
+        assert_eq!(square_root(target), Some(2));
     }
 
     #[test]
     fn two() {
         let target = 8;
         //should return 2
-        assert_eq!(first_occurrence(target), Some(2));
+        assert_eq!(square_root(target), Some(2));
     }
 
     #[test]
     fn three() {
         let target = 10;
         //should return 3
-        assert_eq!(first_occurrence(target), Some(3));
+        assert_eq!(square_root(target), Some(3));
     }
 
     #[test]
     fn four() {
         let target = 0;
         //should return 0
-        assert_eq!(first_occurrence(target), Some(0));
+        assert_eq!(square_root(target), Some(0));
     }
 
     #[test]
     fn five() {
         let target = 1;
         //should return 1
-        assert_eq!(first_occurrence(target), Some(1));
+        assert_eq!(square_root(target), Some(1));
     }
 
     // #[test]
