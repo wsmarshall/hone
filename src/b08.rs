@@ -45,21 +45,44 @@ Assign [2, 3], [5], and [7] separately to workers. The minimum time is 7.
 */
 
 //helper fn for testing a time for feasibility
-fn test_time(list: &Vec<usize>, time: usize, workers: usize) -> bool {
+fn test_time(list: &[usize], time: usize, workers: usize) -> bool {
     let mut workers_used = 0;
     let mut temp = 0;
 
     for i in list {
-        if i + temp > time && workers_used < workers {
+        println!("i: {}", i);
+        if i + temp > time && workers_used < workers - 1 {
+            println!(
+                "if: i + temp: {}, time: {}, workers_used: {}, workers: {}",
+                i + temp,
+                time,
+                workers_used,
+                workers
+            );
             workers_used = workers_used + 1;
             temp = *i;
         } else if i + temp <= time && workers_used < workers {
+            println!(
+                "else if: i + temp: {}, time: {}, workers_used: {}, workers: {}",
+                i + temp,
+                time,
+                workers_used,
+                workers
+            );
             temp = temp + i;
         } else {
+            println!(
+                "else: i + temp: {}, time: {}, workers_used: {}, workers: {}",
+                i + temp,
+                time,
+                workers_used,
+                workers
+            );
+            println!("test time, RETURNING FALSE");
             return false;
         }
     }
-
+    println!("test time, returning TRUE");
     return true;
 }
 
@@ -67,6 +90,7 @@ pub fn newspapers_split(list: &[usize], num_coworkers: usize) -> usize {
     let mut smallest_time = 0;
     let mut largest_time = 0;
     let mut times = Vec::new();
+    let mut current_best_time = usize::MAX;
 
     for i in 0..list.len() {
         if list[i] > smallest_time {
@@ -89,23 +113,25 @@ pub fn newspapers_split(list: &[usize], num_coworkers: usize) -> usize {
     while left <= right {
         println!("just inside while");
         mid = left + ((right - left) / 2); //to avoid overflow
-
-        if test_time(&times, times[mid], num_coworkers) {
+        if test_time(&list, times[mid], num_coworkers) {
+            current_best_time = times[mid];
             //true
-            if right < 1 {
-                println!("just inside less if case");
+            if mid < 1 {
+                println!("just inside if if case RIGHT BEFORE BREAK");
+                println!("left, right, mid = {}, {}, {}", left, right, mid);
                 //avoids underflow from usize indexing
                 //particularly when right = 0
                 break;
             } else {
-                println!("just inside less else case");
+                println!("just inside if else case");
                 println!("left, right, mid = {}, {}, {}", left, right, mid);
                 right = mid - 1;
             }
         } else {
+            println!("inside else case");
             left = mid + 1;
         }
     }
 
-    mid
+    current_best_time
 }
