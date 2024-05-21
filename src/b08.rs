@@ -76,8 +76,9 @@ pub fn newspapers_split(list: &[usize], num_coworkers: usize) -> usize {
     }
 
     for i in smallest_time..largest_time + 1 {
-        times.push(smallest_time + i);
+        times.push(i);
     }
+    println!("times list: {:?}", times);
 
     let length = times.len();
 
