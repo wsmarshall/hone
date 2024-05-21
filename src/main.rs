@@ -1,4 +1,4 @@
-mod b07;
-mod b07_tests;
+mod b08;
+mod b08_tests;
 
 fn main() {}
