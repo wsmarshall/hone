@@ -28,7 +28,7 @@ mod bo8_tests {
         ];
         let num_coworkers = 4;
 
-        assert_eq!(newspapers_split(&list), 94878);
+        assert_eq!(newspapers_split(&list, num_coworkers), 94878);
     }
 
     #[test]
@@ -293,7 +293,7 @@ mod bo8_tests {
         ];
         let num_coworkers = 50000;
 
-        assert_eq!(newspapers_split(&list), 1000);
+        assert_eq!(newspapers_split(&list, num_coworkers), 1000);
     }
 
     #[test]
@@ -558,7 +558,7 @@ mod bo8_tests {
         ];
         let num_coworkers = 123;
 
-        assert_eq!(newspapers_split(target), 18643);
+        assert_eq!(newspapers_split(&list, num_coworkers), 18643);
     }
 
     #[test]
@@ -576,7 +576,7 @@ mod bo8_tests {
         let list = [15, 15, 15, 15];
         let num_coworkers = 4;
 
-        assert_eq!(newspapers_split(&list, target), 4);
+        assert_eq!(newspapers_split(&list, num_coworkers), 4);
     }
 
     // #[test]
