@@ -15,20 +15,27 @@ pub fn find_peak(list: &[usize]) -> usize {
 
     let mut left = 0;
     let mut right = length - 1; //guaranteed non-empty array
-    let mut mid;
-
-    let last = list[length - 1];
-    let mut boundary = length - 1;
+    let mut mid = 0;
+    let mut peak = mid;
 
     while left <= right {
         println!("just inside while");
         mid = left + ((right - left) / 2); //to avoid overflow
-        let num = list[mid];
-        match num.cmp(&last) {
+
+        if mid == length - 1 {
+            //edge case of all the way right
+            return mid;
+        }
+        match list[mid].cmp(&list[mid + 1]) {
             Less => {
                 println!("just inside less case");
-                boundary = mid;
-                if mid < 1 {
+                left = mid + 1;
+            }
+            //equal should not happen (by assumption)
+            Greater | Equal => {
+                println!("just inside greater case");
+                peak = mid;
+                if right < 1 {
                     println!("just inside less if case");
                     //avoids underflow from usize indexing
                     //particularly when right = 0
@@ -36,15 +43,11 @@ pub fn find_peak(list: &[usize]) -> usize {
                 } else {
                     println!("just inside less else case");
                     println!("left, right, mid = {}, {}, {}", left, right, mid);
-                    right = mid - 1
+                    right = mid - 1;
                 }
-            }
-            Greater | Equal => {
-                println!("just inside greater case");
-                left = mid + 1;
             }
         }
     }
 
-    boundary
+    peak
 }
