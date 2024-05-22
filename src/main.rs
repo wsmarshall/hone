@@ -1,4 +1,3 @@
-mod b08;
-mod b08_tests;
+mod node;
 
 fn main() {}
