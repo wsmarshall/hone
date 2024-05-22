@@ -1,5 +1,5 @@
 /**
- * a node for trees
+ * an arena based approach for nodes/graphs in Rust
  */
 
 #[derive(Debug, Default)]
