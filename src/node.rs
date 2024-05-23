@@ -27,6 +27,13 @@ where
         self.arena.push(Node::new(index, val));
         index
     }
+
+    //for building a binary tree
+    fn build_btree(input: String) {
+        let list = input.split().collect();
+        let mut count = 0;
+        for n in list {}
+    }
 }
 
 #[derive(Debug)]
