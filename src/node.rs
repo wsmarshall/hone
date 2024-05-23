@@ -10,6 +10,8 @@ where
     arena: Vec<Node<T>>,
 }
 
+impl<T> ArenaTree<T> where T: PartialEq {}
+
 #[derive(Debug)]
 struct Node<T>
 where
@@ -18,15 +20,20 @@ where
     index: usize,
     val: T,
     parent: Option<usize>,
+    //left child, then right child in that order in the Vec
     children: Vec<usize>,
 }
 
-impl Node {
-    pub fn new(val: Option<i32>, left: Option<Box<Node>>, right: Option<Box<Node>>) -> Node {
-        Node {
-            val: val,
-            left: left,
-            right: right,
+impl<T> Node<T>
+where
+    T: PartialEq,
+{
+    pub fn new(index: usize, val: T) -> Self {
+        Self {
+            index,
+            val,
+            parent: None,
+            children: vec![],
         }
     }
 
