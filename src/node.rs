@@ -28,23 +28,45 @@ where
         index
     }
 
-    //for building a n_ary tree
-    fn build_tree(input: String, n_ary: usize) {
-        let list = input.split(' ').collect();
-        let mut count = 0;
-        let mut leaves = 0;
+    //for building a binary tree
+    fn build_btree(&mut self, input: String) {
+        let list: Vec<&str> = input.split(' ').collect();
+        let mut parent_index = 0;
+        let mut num_leaves = 0;
         for i in 0..list.len() {
             if list[i] == "x" {
-                leaves = leaves + 1;
+                num_leaves += 1;
                 continue;
             } else {
-                let mut new_node = Node::new(i, list[i]);
-                while leaves <= n_ary {
-                    leaves = leaves + 1;
-                }
+                let mut new_node = Node::new()
+                self.arena.push()
             }
         }
     }
+
+    //helper method for recursive tree builder, returns current index in arenatree.arena collection
+
+    fn build_tree_helper (&mut self, list, parent_index: usize, current_index: usize) -> usize {
+
+    }
+
+    // //for building a n_ary tree
+    // fn build_tree(input: String, n_ary: usize) {
+    //     let list = input.split(' ').collect();
+    //     let mut count = 0;
+    //     let mut leaves = 0;
+    //     for i in 0..list.len() {
+    //         if list[i] == "x" {
+    //             leaves = leaves + 1;
+    //             continue;
+    //         } else {
+    //             let mut new_node = Node::new(i, list[i]);
+    //             while leaves <= n_ary {
+    //                 leaves = leaves + 1;
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 #[derive(Debug)]
