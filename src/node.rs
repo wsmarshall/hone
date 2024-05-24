@@ -28,26 +28,39 @@ where
         index
     }
 
-    //for building a binary tree
-    fn build_btree(&mut self, input: String) {
+    //iterative method for building an n-ary tree
+    fn build_tree(&mut self, input: String, n_ary: usize) {
         let list: Vec<&str> = input.split(' ').collect();
-        let mut parent_index = 0;
+        //stack for parent node indices
+        let mut parent_indices = Vec::new();
+        let mut current_index = 0;
         let mut num_leaves = 0;
+
         for i in 0..list.len() {
             if list[i] == "x" {
                 num_leaves += 1;
-                continue;
+                if num_leaves >= n_ary {
+                    parent_indices.pop();
+                    num_leaves = 0;
+                    continue;
+                }
             } else {
-                let mut new_node = Node::new()
-                self.arena.push()
+                if i > 0 {
+                    //not the root node in the tree
+                    if (num_leaves >= n_ary) {
+                    } else {
+                        let current_parent = parent_indices[parent_indices.len() - 1];
+                        self.arena.push(Node::new(current_index, list[i]));
+                        self.arena[parent_index].children.push(current_index);
+                    }
+                } else {
+                    //setting the root node up, starting parent index stack
+                    parent_indices.push(current_index);
+                    self.arena.push(Node::new(current_index, list[i]));
+                }
+                current_index += 1;
             }
         }
-    }
-
-    //helper method for recursive tree builder, returns current index in arenatree.arena collection
-
-    fn build_tree_helper (&mut self, list, parent_index: usize, current_index: usize) -> usize {
-
     }
 
     // //for building a n_ary tree
