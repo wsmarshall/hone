@@ -28,11 +28,22 @@ where
         index
     }
 
-    //for building a binary tree
-    fn build_btree(input: String) {
-        let list = input.split().collect();
+    //for building a n_ary tree
+    fn build_tree(input: String, n_ary: usize) {
+        let list = input.split(' ').collect();
         let mut count = 0;
-        for n in list {}
+        let mut leaves = 0;
+        for i in 0..list.len() {
+            if list[i] == "x" {
+                leaves = leaves + 1;
+                continue;
+            } else {
+                let mut new_node = Node::new(i, list[i]);
+                while leaves <= n_ary {
+                    leaves = leaves + 1;
+                }
+            }
+        }
     }
 }
 
