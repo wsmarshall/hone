@@ -49,10 +49,10 @@ where
             } else {
                 if i > 0 {
                     //not the root node in the tree
-                    if (num_leaves >= n_ary) {
+                    if num_leaves >= n_ary {
                         //leafs are full on current node
                         //current parent is now prev
-                        current_parent = parent_indices.pop();
+                        current_parent = parent_indices.pop().unwrap();
                     } else {
                         //current is a leaf of prev node placed
                         current_parent = parent_indices[parent_indices.len() - 1];
@@ -97,4 +97,19 @@ where
             children: vec![],
         }
     }
+}
+
+//this first pass version assumes binary tree
+fn in_order_traversal<T>(root: Node<T>) -> String {
+    let mut traversal = "";
+    in_order_traversal_helper(root, traversal.to_string())
+}
+
+fn in_order_traversal_helper<T>(n: Node<T>, traversal: String) -> String {
+    in_order_traversal_helper(n.children[0], traversal);
+    traversal.push(n.val as str);
+    traversal.push(' ');
+    in_order_traversal_helper(n.children[1], traversal);
+
+    traversal
 }
