@@ -1,5 +1,5 @@
 /**
- * an arena based approach for nodes/graphs in Rust
+ * a memory arena based approach for nodes/graphs in Rust
  */
 
 #[derive(Debug, Default)]
