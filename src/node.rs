@@ -35,6 +35,7 @@ where
         let mut parent_indices = Vec::new();
         let mut current_index = 0;
         let mut num_leaves = 0;
+        let mut current_parent = 0;
 
         for i in 0..list.len() {
             //no leaf node marker
@@ -50,17 +51,22 @@ where
                     //not the root node in the tree
                     if (num_leaves >= n_ary) {
                         //leafs are full on current node
+                        //current parent is now prev
+                        current_parent = parent_indices.pop();
                     } else {
                         //current is a leaf of prev node placed
-                        let current_parent = parent_indices[parent_indices.len() - 1];
-                        self.arena.push(Node::new(current_index, list[i]));
-                        self.arena[current_parent].children.push(current_index);
+                        current_parent = parent_indices[parent_indices.len() - 1];
                     }
                 } else {
                     //setting the root node up, starting parent index stack
                     parent_indices.push(current_index);
-                    self.arena.push(Node::new(current_index, list[i]));
                 }
+                //add current node to tree
+                self.arena.push(Node::new(current_index, list[i]));
+                //mark current node in parent
+                self.arena[current_parent].children.push(current_index);
+
+                //update place-marking index
                 current_index += 1;
             }
         }
