@@ -97,30 +97,4 @@ where
             children: vec![],
         }
     }
-
-    // fn value(&self) -> i32 {
-    //     self.val.unwrap()
-    // }
-
-    // fn left(&self) -> Option<Box<Node>> {
-    //     if self.left == None {
-    //         return None;
-    //     }
-    //     return self.left;
-    // }
-
-    // fn right(&self) -> Option<Box<Node>> {
-    //     if self.right == None {
-    //         return None;
-    //     }
-    //     return self.right;
-    // }
-
-    // fn in_order_traversal(&self, root: Option<Box<Node>>) {
-    //     if !(root == None) {
-    //         self.in_order_traversal(root.clone().unwrap().left());
-    //         println!("{}", root.unwrap().value());
-    //         self.in_order_traversal(root.clone().unwrap().right());
-    //     }
-    // }
 }
