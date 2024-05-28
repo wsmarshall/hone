@@ -37,6 +37,7 @@ where
         let mut num_leaves = 0;
 
         for i in 0..list.len() {
+            //no leaf node marker
             if list[i] == "x" {
                 num_leaves += 1;
                 if num_leaves >= n_ary {
@@ -48,10 +49,12 @@ where
                 if i > 0 {
                     //not the root node in the tree
                     if (num_leaves >= n_ary) {
+                        //leafs are full on current node
                     } else {
+                        //current is a leaf of prev node placed
                         let current_parent = parent_indices[parent_indices.len() - 1];
                         self.arena.push(Node::new(current_index, list[i]));
-                        self.arena[parent_index].children.push(current_index);
+                        self.arena[current_parent].children.push(current_index);
                     }
                 } else {
                     //setting the root node up, starting parent index stack
