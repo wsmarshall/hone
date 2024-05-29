@@ -71,6 +71,21 @@ where
             }
         }
     }
+
+    //this first pass version assumes binary tree
+    fn in_order_traversal<T>(root: usize) -> String {
+        let mut traversal = "";
+        self.in_order_traversal_helper(root, traversal.to_string())
+    }
+
+    fn in_order_traversal_helper<T>(&self, n: usize, traversal: String) -> String {
+        self.in_order_traversal_helper(self.arena[n].children[0], traversal);
+        traversal.push(n.val as str);
+        traversal.push(' ');
+        self.in_order_traversal_helper(self.arena[n].children[1], traversal);
+
+        traversal
+    }
 }
 
 #[derive(Debug)]
@@ -97,19 +112,4 @@ where
             children: vec![],
         }
     }
-}
-
-//this first pass version assumes binary tree
-fn in_order_traversal<T>(root: Node<T>) -> String {
-    let mut traversal = "";
-    in_order_traversal_helper(root, traversal.to_string())
-}
-
-fn in_order_traversal_helper<T>(n: Node<T>, traversal: String) -> String {
-    in_order_traversal_helper(n.children[0], traversal);
-    traversal.push(n.val as str);
-    traversal.push(' ');
-    in_order_traversal_helper(n.children[1], traversal);
-
-    traversal
 }
