@@ -73,14 +73,14 @@ where
     }
 
     //this first pass version assumes binary tree
-    fn in_order_traversal<T>(root: usize) -> String {
-        let mut traversal = "";
-        self.in_order_traversal_helper(root, traversal.to_string())
+    fn in_order_traversal<U>(&self, root: usize) -> Vec<usize> {
+        let mut traversal = Vec::new();
+        self.in_order_traversal_helper::<U>(root, traversal)
     }
 
-    fn in_order_traversal_helper<T>(&self, n: usize, traversal: String) -> String {
+    fn in_order_traversal_helper<U>(&self, n: usize, &mut traversal: Vec<usize>) -> Vec<usize> {
         self.in_order_traversal_helper(self.arena[n].children[0], traversal);
-        traversal.push(n.val as str);
+        traversal.push(n);
         traversal.push(' ');
         self.in_order_traversal_helper(self.arena[n].children[1], traversal);
 
