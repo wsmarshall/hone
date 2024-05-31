@@ -15,12 +15,15 @@ where
     T: PartialEq,
 {
     fn node(&mut self, val: T) -> usize {
-        //check if it exists
-        for node in &self.arena {
-            if node.val == val {
-                return node.index;
-            }
-        }
+        // commented out because we don't need
+        // node values to be unique currently
+
+        //  //check if it exists
+        // for node in &self.arena {
+        //     if node.val == val {
+        //         return node.index;
+        //     }
+        // }
 
         //add it if !exist
         let index = self.arena.len();
@@ -62,7 +65,7 @@ where
                     parent_indices.push(current_index);
                 }
                 //add current node to tree
-                self.arena.push(Node::new(current_index, list[i]));
+                self.node(Node::new(current_index, list[i] as usize));
                 //mark current node in parent
                 self.arena[current_parent].children.push(current_index);
 
@@ -75,11 +78,11 @@ where
     //this first pass version assumes binary tree
     fn in_order_traversal<U>(&self, root: usize) {
         let mut traversal = Vec::new();
-        self.in_order_traversal_helper::<U>(root, traversal);
+        self.in_order_traversal_helper::<U>(root, &mut traversal);
 
         let mut traverse = String::from("");
         for i in traversal {
-            traverse.push(i);
+            traverse.push(i as char);
             traverse.push(' ');
         }
         println!("in-order traversal is: {}", traverse);
