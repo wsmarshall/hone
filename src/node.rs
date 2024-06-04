@@ -65,7 +65,7 @@ where
                     parent_indices.push(current_index);
                 }
                 //add current node to tree
-                self.node(Node::new(current_index, list[i] as usize));
+                self.node(list[i].to_digit().unwrap());
                 //mark current node in parent
                 self.arena[current_parent].children.push(current_index);
 
