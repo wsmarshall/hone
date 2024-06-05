@@ -25,7 +25,7 @@ where
         //     }
         // }
 
-        //add it if !exist
+        //add it
         let index = self.arena.len();
         self.arena.push(Node::new(index, val));
         index
