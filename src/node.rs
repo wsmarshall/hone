@@ -68,7 +68,17 @@ impl ArenaTree {
     }
 
     //for printing out a tree
-    pub fn to_string(&self) {}
+    pub fn to_string(&self) {
+        let mut tree = String::from("");
+
+    }
+
+    fn level_traverse() -> Vec {
+        //which level of tree, root = 0
+        let mut level = 0;
+        let mut nodes = Vec::new();
+        let current
+    }
 
     //TODO re-implement below, iteratively
     // //this first pass version assumes binary tree
