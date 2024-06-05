@@ -3,18 +3,12 @@
  */
 
 #[derive(Debug, Default)]
-struct ArenaTree<T>
-where
-    T: PartialEq,
-{
-    arena: Vec<Node<T>>,
+struct ArenaTree {
+    arena: Vec<Node>,
 }
 
-impl<T> ArenaTree<T>
-where
-    T: PartialEq,
-{
-    pub fn node(&mut self, val: T) -> usize {
+impl ArenaTree {
+    pub fn node(&mut self, val: u32) -> usize {
         // commented out because we don't need
         // node values to be unique currently
 
@@ -66,12 +60,9 @@ where
                     parent_indices.push(current_index);
                 }
                 //add current node to tree
-                self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
+                current_index = self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
                 //mark current node in parent
                 self.arena[current_parent].children.push(current_index);
-
-                //update place-marking index
-                current_index += 1;
             }
         }
     }
@@ -104,22 +95,16 @@ where
 }
 
 #[derive(Debug)]
-struct Node<T>
-where
-    T: PartialEq,
-{
+struct Node {
     index: usize,
-    val: T,
+    val: u32,
     parent: Option<usize>,
     //left child, then right child in that order in the Vec
     children: Vec<usize>,
 }
 
-impl<T> Node<T>
-where
-    T: PartialEq,
-{
-    fn new(index: usize, val: T) -> Self {
+impl Node {
+    fn new(index: usize, val: u32) -> Self {
         Self {
             index,
             val,
