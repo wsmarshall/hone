@@ -14,7 +14,7 @@ impl<T> ArenaTree<T>
 where
     T: PartialEq,
 {
-    fn node(&mut self, val: T) -> usize {
+    pub fn node(&mut self, val: T) -> usize {
         // commented out because we don't need
         // node values to be unique currently
 
@@ -33,6 +33,7 @@ where
 
     //iterative method for building an n-ary tree
     fn build_tree(&mut self, input: String, n_ary: usize) {
+        const RADIX: u32 = 10;
         let list: Vec<&str> = input.split(' ').collect();
         //stack for parent node indices
         let mut parent_indices = Vec::new();
@@ -65,7 +66,7 @@ where
                     parent_indices.push(current_index);
                 }
                 //add current node to tree
-                self.node(list[i].to_digit().unwrap());
+                self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
                 //mark current node in parent
                 self.arena[current_parent].children.push(current_index);
 
@@ -75,30 +76,31 @@ where
         }
     }
 
-    //this first pass version assumes binary tree
-    fn in_order_traversal<U>(&self, root: usize) {
-        let mut traversal = Vec::new();
-        self.in_order_traversal_helper::<U>(root, &mut traversal);
+    //TODO re-implement below, iteratively
+    // //this first pass version assumes binary tree
+    // fn in_order_traversal<U>(&self, root: usize) {
+    //     let mut traversal = Vec::new();
+    //     self.in_order_traversal_helper::<U>(root, &mut traversal);
 
-        let mut traverse = String::from("");
-        for i in traversal {
-            traverse.push(i as char);
-            traverse.push(' ');
-        }
-        println!("in-order traversal is: {}", traverse);
-    }
+    //     let mut traverse = String::from("");
+    //     for i in traversal {
+    //         traverse.push(i as char::from_u32);
+    //         traverse.push(' ');
+    //     }
+    //     println!("in-order traversal is: {}", traverse);
+    // }
 
-    fn in_order_traversal_helper<U>(
-        &self,
-        n: usize,
-        traversal: &mut Vec<usize>,
-    ) -> &mut Vec<usize> {
-        self.in_order_traversal_helper::<U>(self.arena[n].children[0], traversal);
-        traversal.push(n);
-        self.in_order_traversal_helper::<U>(self.arena[n].children[1], traversal);
+    // fn in_order_traversal_helper<U>(
+    //     &self,
+    //     n: usize,
+    //     traversal: &mut Vec<usize>,
+    // ) -> &mut Vec<usize> {
+    //     self.in_order_traversal_helper::<U>(self.arena[n].children[0], traversal);
+    //     traversal.push(n);
+    //     self.in_order_traversal_helper::<U>(self.arena[n].children[1], traversal);
 
-        traversal
-    }
+    //     traversal
+    // }
 }
 
 #[derive(Debug)]
@@ -117,7 +119,7 @@ impl<T> Node<T>
 where
     T: PartialEq,
 {
-    pub fn new(index: usize, val: T) -> Self {
+    fn new(index: usize, val: T) -> Self {
         Self {
             index,
             val,
