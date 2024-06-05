@@ -67,6 +67,9 @@ impl ArenaTree {
         }
     }
 
+    //for printing out a tree
+    pub fn to_string(&self) {}
+
     //TODO re-implement below, iteratively
     // //this first pass version assumes binary tree
     // fn in_order_traversal<U>(&self, root: usize) {
