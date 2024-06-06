@@ -67,9 +67,15 @@ impl ArenaTree {
         }
     }
 
-    //for printing out a tree
-    pub fn to_string(&self) {
+    //for printing out a string representation of a tree
+    pub fn to_string(&self) -> String {
         let mut tree = String::from("");
+
+        for i in self.arena {
+            tree += i.val;
+            tree += " \n";
+        }
+        tree
 
     }
 
