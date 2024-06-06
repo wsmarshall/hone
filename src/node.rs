@@ -3,8 +3,8 @@
  */
 
 #[derive(Debug, Default)]
-struct ArenaTree {
-    arena: Vec<Node>,
+pub struct ArenaTree {
+    pub arena: Vec<Node>,
 }
 
 impl ArenaTree {
@@ -26,7 +26,7 @@ impl ArenaTree {
     }
 
     //iterative method for building an n-ary tree
-    fn build_tree(&mut self, input: String, n_ary: usize) {
+    pub fn build_tree(&mut self, input: &str, n_ary: usize) {
         const RADIX: u32 = 10;
         let list: Vec<&str> = input.split(' ').collect();
         //stack for parent node indices
@@ -71,26 +71,17 @@ impl ArenaTree {
     pub fn to_string(&self) -> String {
         let mut tree = String::from("");
 
-        for i in self.arena {
-            tree += i.val;
+        for i in &self.arena {
+            tree += &i.val.to_string();
             tree += " \n";
         }
         tree
-
-    }
-
-    fn level_traverse() -> Vec {
-        //which level of tree, root = 0
-        let mut level = 0;
-        let mut nodes = Vec::new();
-        let current
     }
 
     //gives back how many nodes in the tree
     fn size(&self) -> usize {
         self.arena.len()
     }
-
 
     //TODO re-implement below, iteratively
     // //this first pass version assumes binary tree
@@ -120,7 +111,7 @@ impl ArenaTree {
 }
 
 #[derive(Debug)]
-struct Node {
+pub struct Node {
     index: usize,
     val: u32,
     parent: Option<usize>,
