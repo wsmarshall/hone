@@ -86,30 +86,30 @@ impl ArenaTree {
     }
 
     //TODO re-implement below, iteratively
-    // //this first pass version assumes binary tree
-    // fn in_order_traversal<U>(&self, root: usize) {
-    //     let mut traversal = Vec::new();
-    //     self.in_order_traversal_helper::<U>(root, &mut traversal);
+    //this first pass version assumes binary tree
+    pub fn in_order_traversal_iterative(&self, root: usize) -> String {
+        let num_nodes = self.size();
+        let mut count = 0;
 
-    //     let mut traverse = String::from("");
-    //     for i in traversal {
-    //         traverse.push(i as char::from_u32);
-    //         traverse.push(' ');
-    //     }
-    //     println!("in-order traversal is: {}", traverse);
-    // }
+        let mut traverse = String::from("");
 
-    // fn in_order_traversal_helper<U>(
-    //     &self,
-    //     n: usize,
-    //     traversal: &mut Vec<usize>,
-    // ) -> &mut Vec<usize> {
-    //     self.in_order_traversal_helper::<U>(self.arena[n].children[0], traversal);
-    //     traversal.push(n);
-    //     self.in_order_traversal_helper::<U>(self.arena[n].children[1], traversal);
+        //for behaving like a stack
+        let mut tracker = Vec::new();
 
-    //     traversal
-    // }
+        let mut current = root;
+        tracker.push(current);
+
+        while count < num_nodes && !tracker.is_empty() {
+            if (self.arena[current].children.len() > 0) {
+                //current node has a left child
+            } else {
+                //current node has no left child
+                current = tracker.pop();
+            }
+        }
+
+        traverse
+    }
 }
 
 #[derive(Debug)]
