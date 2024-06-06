@@ -80,6 +80,12 @@ impl ArenaTree {
         let current
     }
 
+    //gives back how many nodes in the tree
+    fn size(&self) -> usize {
+        self.arena.len()
+    }
+
+
     //TODO re-implement below, iteratively
     // //this first pass version assumes binary tree
     // fn in_order_traversal<U>(&self, root: usize) {
