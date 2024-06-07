@@ -87,7 +87,7 @@ impl ArenaTree {
 
     //TODO re-implement below, iteratively
     //this first pass version assumes binary tree
-    pub fn in_order_traversal_iterative(&self, root: usize) -> String {
+    pub fn in_order_traversal_iterative(&self) -> String {
         let num_nodes = self.size();
         let mut count = 0;
 
@@ -96,11 +96,10 @@ impl ArenaTree {
         //for behaving like a stack
         let mut tracker = Vec::new();
 
-        let mut current = root;
-        tracker.push(current);
+        let mut current = self.arena[0].index;
 
-        while count < num_nodes && !tracker.is_empty() {
-            if (self.arena[current].children.len() > 0) {
+        while count < num_nodes - 1 {
+            if self.arena[current].children.len() > 0 {
                 //current node has a left child
                 tracker.push(current);
                 //set current to current's left child
@@ -108,22 +107,27 @@ impl ArenaTree {
             } else {
                 //current node has no left child
 
-                traverse += current.to_string();
+                traverse += &self.arena[current].val.to_string();
                 traverse += "\n";
+                count += 1;
 
-                //current becomes parent of node with no left child
-                current = tracker.pop();
-                traverse += current.to_string();
-                traverse += "\n";
-
+                if !tracker.is_empty() {
+                    //current becomes parent of node with no left child
+                    current = tracker.pop().unwrap();
+                    traverse += &self.arena[current].val.to_string();
+                    traverse += "\n";
+                    count += 1;
+                }
                 //check for right child
-                if (self.arena[current].children.len() > 1) {
+                if self.arena[current].children.len() > 1 {
                     //if right child, current becomes
                     current = self.arena[current].children[2];
-                    tracker.push(self.arena[current].children[2]);
+                    // tracker.push(self.arena[current].children[2]);
                 } else {
                     //no right children - current becomes parent
-                    current = tracker.pop();
+                    if !tracker.is_empty() {
+                        current = tracker.pop().unwrap();
+                    }
                 }
             }
         }
