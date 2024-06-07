@@ -60,6 +60,10 @@ impl ArenaTree {
                 } else {
                     //setting the root node up, starting parent index stack
                     parent_indices.push(current_index);
+                    //add current node to tree
+                    current_index =
+                        self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
+                    continue;
                 }
                 //add current node to tree
                 current_index = self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
@@ -74,6 +78,9 @@ impl ArenaTree {
                 i.index, i.val, i.parent, i.children
             );
         }
+        println!();
+        println!();
+        println!();
     }
 
     //for printing out a string representation of a tree
