@@ -67,6 +67,13 @@ impl ArenaTree {
                 self.arena[current_parent].children.push(current_index);
             }
         }
+
+        for i in &self.arena {
+            println!(
+                "node at {}, value: {}, parent: {:?}, children: {:?}",
+                i.index, i.val, i.parent, i.children
+            );
+        }
     }
 
     //for printing out a string representation of a tree
