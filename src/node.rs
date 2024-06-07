@@ -102,9 +102,29 @@ impl ArenaTree {
         while count < num_nodes && !tracker.is_empty() {
             if (self.arena[current].children.len() > 0) {
                 //current node has a left child
+                tracker.push(current);
+                //set current to current's left child
+                current = self.arena[current].children[1];
             } else {
                 //current node has no left child
+
+                traverse += current.to_string();
+                traverse += "\n";
+
+                //current becomes parent of node with no left child
                 current = tracker.pop();
+                traverse += current.to_string();
+                traverse += "\n";
+
+                //check for right child
+                if (self.arena[current].children.len() > 1) {
+                    //if right child, current becomes
+                    current = self.arena[current].children[2];
+                    tracker.push(self.arena[current].children[2]);
+                } else {
+                    //no right children - current becomes parent
+                    current = tracker.pop();
+                }
             }
         }
 
