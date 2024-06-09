@@ -56,6 +56,7 @@ impl ArenaTree {
                         if parent_indices.len() > 0 {
                             current_parent = parent_indices[parent_indices.len() - 1];
                         }
+                        num_leaves += 1;
                     }
                 } else {
                     //setting the root node up, starting parent index stack
