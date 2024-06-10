@@ -51,13 +51,14 @@ impl ArenaTree {
                         //leafs are full on current node
                         //current parent is now prev
                         current_parent = parent_indices.pop().unwrap();
+                        num_leaves = 0;
                     } else {
                         //current is a leaf of prev node placed
                         if parent_indices.len() > 0 {
                             current_parent = parent_indices[parent_indices.len() - 1];
                         }
                         num_leaves += 1;
-                        if (num_leaves == n_ary) {
+                        if num_leaves == n_ary {
                             parent_indices.push(current_index);
                         }
                     }
@@ -71,6 +72,8 @@ impl ArenaTree {
                 }
                 //add current node to tree
                 current_index = self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
+                //mark parent
+                self.arena[current_index].parent = Some(current_parent);
                 //mark current node in parent
                 self.arena[current_parent].children.push(current_index);
             }
