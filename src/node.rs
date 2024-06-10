@@ -57,6 +57,9 @@ impl ArenaTree {
                             current_parent = parent_indices[parent_indices.len() - 1];
                         }
                         num_leaves += 1;
+                        if (num_leaves == n_ary) {
+                            parent_indices.push(current_index);
+                        }
                     }
                 } else {
                     //setting the root node up, starting parent index stack
@@ -106,7 +109,7 @@ impl ArenaTree {
         let num_nodes = self.size();
         let mut count = 0;
 
-        let mut traverse = String::from("");
+        let mut traverse = String::from("\n");
 
         //for behaving like a stack
         let mut tracker = Vec::new();
