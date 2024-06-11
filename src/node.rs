@@ -213,22 +213,13 @@ impl ArenaTree {
             } else {
                 //current node has no left child
 
-                traverse += &self.arena[current].val.to_string();
-                traverse += "\n";
-                count += 1;
-
-                if !tracker.is_empty() {
-                    //current becomes parent of node with no left child
-                    current = tracker.pop().unwrap();
-                    traverse += &self.arena[current].val.to_string();
-                    traverse += "\n";
-                    count += 1;
-                }
                 //check for right child
                 if self.arena[current].children.len() > 1 {
                     //if right child, current becomes
                     current = self.arena[current].children[1];
-                    // tracker.push(self.arena[current].children[2]);
+                    //add self
+                    traverse += &self.arena[current].val.to_string();
+                    tracker.push(current);
                 } else {
                     //no right children - current becomes parent
                     if !tracker.is_empty() {
