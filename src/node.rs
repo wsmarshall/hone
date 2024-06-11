@@ -130,9 +130,11 @@ impl ArenaTree {
         self.arena.len()
     }
 
-    //TODO re-implement below, iteratively
-    //this first pass version assumes binary tree
+    //this version assumes binary tree
     pub fn in_order_traversal_iterative(&self) -> String {
+        if (self.arena.len() == 0) {
+            return "".to_string();
+        }
         let num_nodes = self.size();
         let mut count = 0;
 
@@ -143,12 +145,12 @@ impl ArenaTree {
 
         let mut current = self.arena[0].index;
 
-        while count < num_nodes - 1 {
+        while count < num_nodes {
             if self.arena[current].children.len() > 0 {
                 //current node has a left child
                 tracker.push(current);
                 //set current to current's left child
-                current = self.arena[current].children[1];
+                current = self.arena[current].children[0];
             } else {
                 //current node has no left child
 
@@ -166,7 +168,7 @@ impl ArenaTree {
                 //check for right child
                 if self.arena[current].children.len() > 1 {
                     //if right child, current becomes
-                    current = self.arena[current].children[2];
+                    current = self.arena[current].children[1];
                     // tracker.push(self.arena[current].children[2]);
                 } else {
                     //no right children - current becomes parent
