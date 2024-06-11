@@ -132,7 +132,7 @@ impl ArenaTree {
 
     //this version assumes binary tree
     pub fn in_order_traversal_iterative(&self) -> String {
-        if (self.arena.len() == 0) {
+        if self.arena.len() == 0 {
             return "".to_string();
         }
         let num_nodes = self.size();
@@ -151,6 +151,65 @@ impl ArenaTree {
                 tracker.push(current);
                 //set current to current's left child
                 current = self.arena[current].children[0];
+            } else {
+                //current node has no left child
+
+                traverse += &self.arena[current].val.to_string();
+                traverse += "\n";
+                count += 1;
+
+                if !tracker.is_empty() {
+                    //current becomes parent of node with no left child
+                    current = tracker.pop().unwrap();
+                    traverse += &self.arena[current].val.to_string();
+                    traverse += "\n";
+                    count += 1;
+                }
+                //check for right child
+                if self.arena[current].children.len() > 1 {
+                    //if right child, current becomes
+                    current = self.arena[current].children[1];
+                    // tracker.push(self.arena[current].children[2]);
+                } else {
+                    //no right children - current becomes parent
+                    if !tracker.is_empty() {
+                        current = tracker.pop().unwrap();
+                    }
+                }
+            }
+        }
+
+        traverse
+    }
+
+    //this version assumes binary tree
+    pub fn pre_order_traversal_iterative(&self) -> String {
+        if self.arena.len() == 0 {
+            return "".to_string();
+        }
+
+        let num_nodes = self.size();
+        let mut count = 0;
+
+        //also for pinging with 'contains'
+        let mut traverse = String::from("\n");
+
+        //for behaving like a stack
+        let mut tracker = Vec::new();
+
+        let mut current = self.arena[0].index;
+
+        //add self
+        traverse += &self.arena[current].val.to_string();
+        tracker.push(current);
+
+        while !tracker.is_empty() {
+            if self.arena[current].children.len() > 0 {
+                //set current to current's left child
+                current = self.arena[current].children[0];
+                //add self
+                traverse += &self.arena[current].val.to_string();
+                tracker.push(current);
             } else {
                 //current node has no left child
 

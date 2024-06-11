@@ -3,12 +3,21 @@ mod node;
 fn main() {
     use crate::node::ArenaTree;
 
-    let mut test_tree = ArenaTree { arena: Vec::new() };
+    let mut test_tree1 = ArenaTree { arena: Vec::new() };
 
-    test_tree.build_tree("1 2 4 x x 5 x x 3 6 x x 7 x x", 2);
+    test_tree1.build_tree("5 4 3 x x 8 x x 6 x x", 2);
+
+    println!(
+        "pre-order traversal of test tree is: {}",
+        test_tree1.pre_order_traversal_iterative()
+    );
+
+    let mut test_tree2 = ArenaTree { arena: Vec::new() };
+
+    test_tree2.build_tree("1 2 4 x x 5 x x 3 6 x x 7 x x", 2);
 
     println!(
         "in order traversal of test tree is: {}",
-        test_tree.in_order_traversal_iterative()
+        test_tree2.pre_order_traversal_iterative()
     );
 }
