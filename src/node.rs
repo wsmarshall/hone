@@ -201,6 +201,7 @@ impl ArenaTree {
 
         //add self
         traverse += &self.arena[current].val.to_string();
+        traverse += "\n";
         tracker.push(current);
 
         while !tracker.is_empty() {
@@ -209,6 +210,7 @@ impl ArenaTree {
                 current = self.arena[current].children[0];
                 //add self
                 traverse += &self.arena[current].val.to_string();
+                traverse += "\n";
                 tracker.push(current);
             } else {
                 //current node has no left child
@@ -219,16 +221,19 @@ impl ArenaTree {
                     current = self.arena[current].children[1];
                     //add self
                     traverse += &self.arena[current].val.to_string();
+                    traverse += "\n";
                     tracker.push(current);
                 } else {
                     //no right children - current becomes parent
+                    if !tracker.is_empty() {
+                        tracker.pop().unwrap();
+                    }
                     if !tracker.is_empty() {
                         current = tracker.pop().unwrap();
                     }
                 }
             }
         }
-
         traverse
     }
 }
