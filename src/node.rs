@@ -203,14 +203,26 @@ impl ArenaTree {
         tracker.push(current);
 
         while !tracker.is_empty() {
-            if self.arena[current].children.len() > 0 {
+            if self.arena[current].children.len() > 0
+                && !traverse.contains(
+                    &self.arena[*&self.arena[current].children[0]]
+                        .val
+                        .to_string(),
+                )
+            {
                 //set current to current's left child
                 current = self.arena[current].children[0];
             } else {
                 //current node has no left child
 
                 //check for right child
-                if self.arena[current].children.len() > 1 {
+                if self.arena[current].children.len() > 1
+                    && !traverse.contains(
+                        &self.arena[*&self.arena[current].children[1]]
+                            .val
+                            .to_string(),
+                    )
+                {
                     //if right child, current becomes
                     current = self.arena[current].children[1];
                 } else {
