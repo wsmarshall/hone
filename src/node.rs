@@ -194,6 +194,8 @@ impl ArenaTree {
 
         //for behaving like a stack
         let mut tracker = Vec::new();
+        //dummy placeholder variable
+        tracker.push(0);
 
         let mut current = self.arena[0].index;
 
