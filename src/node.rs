@@ -243,6 +243,68 @@ impl ArenaTree {
         }
         traverse
     }
+
+    //this version assumes binary tree
+    pub fn post_order_traversal_iterative(&self) -> String {
+        if self.arena.len() == 0 {
+            return "".to_string();
+        }
+
+        //also for pinging with 'contains'
+        let mut traverse = String::from("\n");
+
+        //for behaving like a stack
+        let mut tracker = Vec::new();
+
+        //dummy placeholder variable
+        tracker.push(0);
+
+        let mut current = self.arena[0].index;
+
+        //add self
+        traverse += &self.arena[current].val.to_string();
+        traverse += "\n";
+        tracker.push(current);
+
+        while !tracker.is_empty() {
+            if self.arena[current].children.len() > 0
+                && !traverse.contains(
+                    &self.arena[*&self.arena[current].children[0]]
+                        .val
+                        .to_string(),
+                )
+            {
+                //set current to current's left child
+                current = self.arena[current].children[0];
+            } else {
+                //current node has no left child
+
+                //check for right child
+                if self.arena[current].children.len() > 1
+                    && !traverse.contains(
+                        &self.arena[*&self.arena[current].children[1]]
+                            .val
+                            .to_string(),
+                    )
+                {
+                    //if right child, current becomes
+                    current = self.arena[current].children[1];
+                } else {
+                    //no right children - current becomes parent
+                    if !tracker.is_empty() {
+                        current = tracker.pop().unwrap();
+                    }
+                }
+            }
+            if !traverse.contains(&self.arena[current].val.to_string()) {
+                //add self
+                traverse += &self.arena[current].val.to_string();
+                traverse += "\n";
+                tracker.push(current);
+            }
+        }
+        traverse
+    }
 }
 
 #[derive(Debug)]
