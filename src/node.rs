@@ -1,5 +1,6 @@
 /**
  * a memory arena based approach for nodes/graphs in Rust
+ * used for tree construction and graph algos
  */
 
 #[derive(Debug, Default)]
@@ -192,7 +193,7 @@ impl ArenaTree {
         let mut count = 0;
 
         //also for pinging with 'contains'
-        let mut traverse = String::from("\n");
+        let mut traverse = String::from("\n ");
 
         //for behaving like a stack
         let mut tracker = Vec::new();
@@ -201,17 +202,19 @@ impl ArenaTree {
 
         //add self
         traverse += &self.arena[current].val.to_string();
-        traverse += "\n";
+        traverse += " \n ";
         tracker.push(current);
 
         while !tracker.is_empty() {
             if self.arena[current].children.len() > 0 {
                 //set current to current's left child
                 current = self.arena[current].children[0];
-                //add self
-                traverse += &self.arena[current].val.to_string();
-                traverse += "\n";
-                tracker.push(current);
+                if !traverse.contains(&current.to_string()) {
+                    //add self
+                    traverse += &self.arena[current].val.to_string();
+                    traverse += " \n ";
+                    tracker.push(current);
+                }
             } else {
                 //current node has no left child
 
@@ -219,15 +222,15 @@ impl ArenaTree {
                 if self.arena[current].children.len() > 1 {
                     //if right child, current becomes
                     current = self.arena[current].children[1];
-                    //add self
-                    traverse += &self.arena[current].val.to_string();
-                    traverse += "\n";
-                    tracker.push(current);
+
+                    if !traverse.contains(&current.to_string()) {
+                        //add self
+                        traverse += &self.arena[current].val.to_string();
+                        traverse += " \n ";
+                        tracker.push(current);
+                    }
                 } else {
                     //no right children - current becomes parent
-                    if !tracker.is_empty() {
-                        tracker.pop().unwrap();
-                    }
                     if !tracker.is_empty() {
                         current = tracker.pop().unwrap();
                     }
