@@ -261,9 +261,6 @@ impl ArenaTree {
 
         let mut current = self.arena[0].index;
 
-        //add self
-        traverse += &self.arena[current].val.to_string();
-        traverse += "\n";
         tracker.push(current);
 
         while !tracker.is_empty() {
@@ -296,11 +293,13 @@ impl ArenaTree {
                     }
                 }
             }
-            if !traverse.contains(&self.arena[current].val.to_string()) {
-                //add self
-                traverse += &self.arena[current].val.to_string();
-                traverse += "\n";
-                tracker.push(current);
+            if self.arena[current].children.len() == 0 {
+                if !traverse.contains(&self.arena[current].val.to_string()) {
+                    //add self
+                    traverse += &self.arena[current].val.to_string();
+                    traverse += "\n";
+                    tracker.push(current);
+                }
             }
         }
         traverse
