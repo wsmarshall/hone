@@ -262,31 +262,66 @@ impl ArenaTree {
         let mut has_left = false;
         let mut has_right = false;
 
-        while tracker.len() < self.size() {
-            //add current to stack
-            tracker.push(current);
-
-            if self.arena[current].children.len() > 1 {
+        while traverse.len() < self.size() || !tracker.is_empty() {
+            if self.arena[current].children.len() > 1
+                && !traverse.contains(&self.arena[self.arena[current].children[1]].val.to_string())
+            {
                 //current has at least a right child
-                if !tracker.contains(self.arena[current].children[1]) {
-                    tracker.push(self.arena[current].children[1]);
+                if !traverse.contains(&self.arena[current].val.to_string()) {
+                    has_right = true;
+                    if !tracker.contains(&current) {
+                        tracker.push(current);
+                    }
+                    if !tracker.contains(&self.arena[current].children[1]) {
+                        tracker.push(self.arena[current].children[1]);
+                    }
                 }
             }
 
-            if self.arena[current].children.len() > 0 {
+            if self.arena[current].children.len() > 0
+                && !traverse.contains(&self.arena[current].children[0].to_string())
+            {
                 //current has at least a left child
-                if !tracker.contains(current) {
-                    tracker.push(current);
+                if !traverse.contains(&self.arena[self.arena[current].children[0]].val.to_string())
+                {
+                    has_left = true;
+                    if !tracker.contains(&current) {
+                        tracker.push(current);
+                    }
                 }
-                current = self.arena[current].children[0];
-            } else {
-                //tracker has no left child
-                if !tracker.contains(current) {
-                    tracker.push(current);
-                }
-                current = tracker[tracker.len() - 1].unwrap();
             }
 
+            if has_left {
+                //set current to left child
+                current = self.arena[current].children[0];
+            } else if !has_left && has_right {
+                //set current to right child
+                current = self.arena[current].children[1]
+            } else {
+                if !traverse.contains(&self.arena[current].val.to_string()) {
+                    traverse += &self.arena[current].val.to_string();
+                    traverse += "\n";
+                }
+                current = tracker.pop().unwrap();
+            }
+            if tracker.is_empty() {
+                traverse += &self.arena[current].val.to_string();
+            } else {
+                has_left = false;
+                has_right = false;
+            }
+
+            /*
+
+
+                         else {
+                            //tracker has no left child
+                            if !tracker.contains(current) {
+                                tracker.push(current);
+                            }
+                            current = tracker[tracker.len() - 1].unwrap();
+                        }
+            */
             /*
             if self.arena[current].children.len() > 0
                 && !traverse.contains(
@@ -337,8 +372,6 @@ impl ArenaTree {
                 }
             } */
         }
-
-        while !tracker.is_empty() {}
         traverse
     }
 }
