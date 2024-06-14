@@ -256,14 +256,38 @@ impl ArenaTree {
         //for behaving like a stack
         let mut tracker = Vec::new();
 
-        //dummy placeholder variable
-        tracker.push(0);
-
+        //set current equal to the root
         let mut current = self.arena[0].index;
 
-        tracker.push(current);
+        let mut has_left = false;
+        let mut has_right = false;
 
-        while !tracker.is_empty() {
+        while tracker.len() < self.size() {
+            //add current to stack
+            tracker.push(current);
+
+            if self.arena[current].children.len() > 1 {
+                //current has at least a right child
+                if !tracker.contains(self.arena[current].children[1]) {
+                    tracker.push(self.arena[current].children[1]);
+                }
+            }
+
+            if self.arena[current].children.len() > 0 {
+                //current has at least a left child
+                if !tracker.contains(current) {
+                    tracker.push(current);
+                }
+                current = self.arena[current].children[0];
+            } else {
+                //tracker has no left child
+                if !tracker.contains(current) {
+                    tracker.push(current);
+                }
+                current = tracker[tracker.len() - 1].unwrap();
+            }
+
+            /*
             if self.arena[current].children.len() > 0
                 && !traverse.contains(
                     &self.arena[*&self.arena[current].children[0]]
@@ -271,10 +295,21 @@ impl ArenaTree {
                         .to_string(),
                 )
             {
+                //if current has a left child
+                if (!tracker.contains(current)) {
+                    tracker.push(current);
+                }
+
                 //set current to current's left child
                 current = self.arena[current].children[0];
-            } else {
-                //current node has no left child
+            } else if self.arena[current].children.len() > 1
+                && !traverse.contains(
+                    &self.arena[*&self.arena[current].children[1]]
+                        .val
+                        .to_string(),
+                )
+            {
+                //current node has a right child
 
                 //check for right child
                 if self.arena[current].children.len() > 1
@@ -300,8 +335,10 @@ impl ArenaTree {
                     traverse += "\n";
                     tracker.push(current);
                 }
-            }
+            } */
         }
+
+        while !tracker.is_empty() {}
         traverse
     }
 }
