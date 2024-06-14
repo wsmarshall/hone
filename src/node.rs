@@ -279,7 +279,7 @@ impl ArenaTree {
             }
 
             if self.arena[current].children.len() > 0
-                && !traverse.contains(&self.arena[current].children[0].to_string())
+                && !traverse.contains(&self.arena[self.arena[current].children[0]].val.to_string())
             {
                 //current has at least a left child
                 if !traverse.contains(&self.arena[self.arena[current].children[0]].val.to_string())
