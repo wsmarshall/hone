@@ -10,17 +10,14 @@ pub struct ArenaTree {
 
 impl ArenaTree {
     pub fn node(&mut self, val: u32) -> usize {
-        // commented out because we don't need
-        // node values to be unique currently
+        //check if given node exists
+        for node in &self.arena {
+            if node.val == val {
+                return node.index;
+            }
+        }
 
-        //  //check if it exists
-        // for node in &self.arena {
-        //     if node.val == val {
-        //         return node.index;
-        //     }
-        // }
-
-        //add it
+        //add it if it doesn't exist
         let index = self.arena.len();
         self.arena.push(Node::new(index, val));
         index
@@ -106,7 +103,28 @@ impl ArenaTree {
                     self.arena[current_parent].children.push(current_index);
                 }
             }
-        } else { //an n-ary tree
+        } else {
+            //an n-ary tree
+            //the actual numbers
+            let list: Vec<&str> = input.split(' ').collect();
+
+            //"triple" tuple structs for nodes, children, and counts
+            struct triple(u32, u32);
+
+            //keeps track of "triple" tuple structs for nodes and children
+            //where .0 is node value, .1 is num children, and .2 is current count
+            let mut tracker = Vec::new();
+
+            let mut i = 0; //for accessing/iterating 'list'
+            while i < list.len() {
+                self.node(list[i]);
+                if (list[i + 1] > 0) {
+                    //has children
+                    let mut j = 0;
+                    //TODO
+                }
+                i += 2;
+            }
         }
 
         for i in &self.arena {
