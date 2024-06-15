@@ -28,80 +28,85 @@ impl ArenaTree {
 
     //iterative method for building an n-ary tree
     pub fn build_tree(&mut self, input: &str, n_ary: usize) {
-        const RADIX: u32 = 10;
-        let list: Vec<&str> = input.split(' ').collect();
-        //stack for parent node indices
-        let mut parent_indices = Vec::new();
-        let mut current_index = 0;
-        let mut num_leaves = 0;
-        let mut current_parent = 0;
-        let mut num_children = 0;
+        if usize == 2 {
+            //a binary tree
+            const RADIX: u32 = 10;
+            let list: Vec<&str> = input.split(' ').collect();
+            //stack for parent node indices
+            let mut parent_indices = Vec::new();
+            let mut current_index = 0;
+            let mut num_leaves = 0;
+            let mut current_parent = 0;
+            let mut num_children = 0;
 
-        for i in 0..list.len() {
-            //no leaf node marker
-            if list[i] == "x" {
-                num_leaves += 1;
-                if num_leaves >= n_ary {
-                    if parent_indices.len() > 1 {
-                        parent_indices.pop();
-                        current_parent = parent_indices[parent_indices.len() - 1];
-                    } else {
-                        //is at root for parent
-                        current_parent = parent_indices[0];
-                    }
-
-                    num_leaves = 0;
-                    continue;
-                }
-            } else {
-                if i > 0 {
-                    //not the root node in the tree
-                    if num_leaves >= n_ary || num_children >= n_ary {
-                        if num_leaves >= n_ary {
-                            //leafs are full on current node
-                            num_leaves = 0;
+            for i in 0..list.len() {
+                //no leaf node marker
+                if list[i] == "x" {
+                    num_leaves += 1;
+                    if num_leaves >= n_ary {
+                        if parent_indices.len() > 1 {
+                            parent_indices.pop();
+                            current_parent = parent_indices[parent_indices.len() - 1];
+                        } else {
+                            //is at root for parent
+                            current_parent = parent_indices[0];
                         }
 
-                        if num_children >= n_ary {
-                            //parent node is "full"
-                            num_children = 0;
-                        }
-
-                        //current parent is now prev
-                        current_parent = parent_indices.pop().unwrap();
-                    } else {
-                        //current is a leaf of prev node placed
-                        num_children += 1;
-                        //add current node to tree
-                        current_index =
-                            self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
-                        //mark parent
-                        self.arena[current_index].parent = Some(current_parent);
-                        //mark current node in parent
-                        self.arena[current_parent].children.push(current_index);
-
-                        parent_indices.push(current_index);
-
-                        current_parent = current_index;
                         num_leaves = 0;
-
                         continue;
                     }
                 } else {
-                    //setting the root node up, starting parent index stack
-                    parent_indices.push(current_index);
+                    if i > 0 {
+                        //not the root node in the tree
+                        if num_leaves >= n_ary || num_children >= n_ary {
+                            if num_leaves >= n_ary {
+                                //leafs are full on current node
+                                num_leaves = 0;
+                            }
+
+                            if num_children >= n_ary {
+                                //parent node is "full"
+                                num_children = 0;
+                            }
+
+                            //current parent is now prev
+                            current_parent = parent_indices.pop().unwrap();
+                        } else {
+                            //current is a leaf of prev node placed
+                            num_children += 1;
+                            //add current node to tree
+                            current_index =
+                                self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
+                            //mark parent
+                            self.arena[current_index].parent = Some(current_parent);
+                            //mark current node in parent
+                            self.arena[current_parent].children.push(current_index);
+
+                            parent_indices.push(current_index);
+
+                            current_parent = current_index;
+                            num_leaves = 0;
+
+                            continue;
+                        }
+                    } else {
+                        //setting the root node up, starting parent index stack
+                        parent_indices.push(current_index);
+                        //add current node to tree
+                        current_index =
+                            self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
+                        continue;
+                    }
                     //add current node to tree
                     current_index =
                         self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
-                    continue;
+                    //mark parent
+                    self.arena[current_index].parent = Some(current_parent);
+                    //mark current node in parent
+                    self.arena[current_parent].children.push(current_index);
                 }
-                //add current node to tree
-                current_index = self.node(list[i].chars().nth(0).unwrap().to_digit(RADIX).unwrap());
-                //mark parent
-                self.arena[current_index].parent = Some(current_parent);
-                //mark current node in parent
-                self.arena[current_parent].children.push(current_index);
             }
+        } else { //an n-ary tree
         }
 
         for i in &self.arena {
@@ -310,67 +315,6 @@ impl ArenaTree {
                 has_left = false;
                 has_right = false;
             }
-
-            /*
-
-
-                         else {
-                            //tracker has no left child
-                            if !tracker.contains(current) {
-                                tracker.push(current);
-                            }
-                            current = tracker[tracker.len() - 1].unwrap();
-                        }
-            */
-            /*
-            if self.arena[current].children.len() > 0
-                && !traverse.contains(
-                    &self.arena[*&self.arena[current].children[0]]
-                        .val
-                        .to_string(),
-                )
-            {
-                //if current has a left child
-                if (!tracker.contains(current)) {
-                    tracker.push(current);
-                }
-
-                //set current to current's left child
-                current = self.arena[current].children[0];
-            } else if self.arena[current].children.len() > 1
-                && !traverse.contains(
-                    &self.arena[*&self.arena[current].children[1]]
-                        .val
-                        .to_string(),
-                )
-            {
-                //current node has a right child
-
-                //check for right child
-                if self.arena[current].children.len() > 1
-                    && !traverse.contains(
-                        &self.arena[*&self.arena[current].children[1]]
-                            .val
-                            .to_string(),
-                    )
-                {
-                    //if right child, current becomes
-                    current = self.arena[current].children[1];
-                } else {
-                    //no right children - current becomes parent
-                    if !tracker.is_empty() {
-                        current = tracker.pop().unwrap();
-                    }
-                }
-            }
-            if self.arena[current].children.len() == 0 {
-                if !traverse.contains(&self.arena[current].val.to_string()) {
-                    //add self
-                    traverse += &self.arena[current].val.to_string();
-                    traverse += "\n";
-                    tracker.push(current);
-                }
-            } */
         }
         traverse
     }
