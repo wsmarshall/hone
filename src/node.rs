@@ -109,7 +109,7 @@ impl ArenaTree {
             let list: Vec<&str> = input.split(' ').collect();
 
             //"triple" tuple structs for nodes, children, and counts
-            struct triple(u32, u32);
+            struct triple(u32, u32, u32);
 
             //keeps track of "triple" tuple structs for nodes and children
             //where .0 is node value, .1 is num children, and .2 is current count
