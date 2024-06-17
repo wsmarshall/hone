@@ -104,7 +104,7 @@ impl ArenaTree {
                 }
             }
         } else {
-            //an n-ary tree
+            //an n-ary tree for n > 2
             //the actual numbers
             let list: Vec<&str> = input.split(' ').collect();
 
@@ -114,14 +114,28 @@ impl ArenaTree {
             //keeps track of "triple" tuple structs for nodes and children
             //where .0 is node value, .1 is num children, and .2 is current count
             let mut tracker = Vec::new();
-
+            let mut curr_parent = 0;
+            let mut num_children = 0;
             let mut i = 0; //for accessing/iterating 'list'
+            let mut j = 0; //for keeping track of children count
             while i < list.len() {
-                self.node(list[i]);
+                //insert current node into tree, record index and val
+                let curr_index = self.node(list[i]);
+                let curr_val = self.arena[curr_index].val;
+
                 if (list[i + 1] > 0) {
                     //has children
-                    let mut j = 0;
-                    //TODO
+                    num_children = list[i + 1];
+                    curr_parent = curr_index;
+                    let mut current = triple(curr_val, num_children, j);
+                    tracker.push(current);
+                    //reset j
+                    j = 0;
+                } else {
+                    //no children
+                    //mark parent
+                    self.arena[curr_parent].children.push(curr_index);
+                    j += 1;
                 }
                 i += 2;
             }
