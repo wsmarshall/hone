@@ -25,7 +25,7 @@ impl ArenaTree {
 
     //iterative method for building an n-ary tree
     pub fn build_tree(&mut self, input: &str, n_ary: usize) {
-        if usize == 2 {
+        if n_ary == 2 {
             //a binary tree
             const RADIX: u32 = 10;
             let list: Vec<&str> = input.split(' ').collect();
@@ -109,7 +109,7 @@ impl ArenaTree {
             let list: Vec<&str> = input.split(' ').collect();
 
             //"triple" tuple structs for nodes, children, and counts
-            struct triple(u32, u32, u32);
+            struct Triple(u32, u32, u32);
 
             //keeps track of "triple" tuple structs for nodes and children
             //where .0 is node value, .1 is num children, and .2 is current count
@@ -120,14 +120,14 @@ impl ArenaTree {
             let mut j = 0; //for keeping track of children count
             while i < list.len() {
                 //insert current node into tree, record index and val
-                let curr_index = self.node(list[i]);
+                let curr_index = self.node(list[i].chars().nth(0).unwrap().to_digit(10).unwrap());
                 let curr_val = self.arena[curr_index].val;
 
-                if (list[i + 1] > 0) {
+                if list[i + 1].chars().nth(0).unwrap().to_digit(10).unwrap() > 0 {
                     //has children
-                    num_children = list[i + 1];
+                    num_children = list[i + 1].chars().nth(0).unwrap().to_digit(10).unwrap();
                     curr_parent = curr_index;
-                    let mut current = triple(curr_val, num_children, j);
+                    let mut current = Triple(curr_val, num_children, j);
                     tracker.push(current);
                     //reset j
                     j = 0;
