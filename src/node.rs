@@ -103,6 +103,8 @@ impl ArenaTree {
                     self.arena[current_parent].children.push(current_index);
                 }
             }
+        } else if (n_ary < 2) {
+            //should never trigger, here for completeness
         } else {
             //an n-ary tree for n > 2
             //the actual numbers
