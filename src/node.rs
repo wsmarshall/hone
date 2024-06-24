@@ -115,6 +115,8 @@ impl ArenaTree {
             //where .0 is node value, .1 is num children, and .2 is current count
             let mut tracker = Vec::new();
             let mut curr_parent = 0;
+            //acting as a stack
+            let mut curr_parent_stack = Vec::new();
             let mut num_children = 0;
             let mut i = 0; //for accessing/iterating 'list'
             let mut j = 0; //for keeping track of children count
@@ -127,6 +129,7 @@ impl ArenaTree {
                     //has children
                     num_children = list[i + 1].chars().nth(0).unwrap().to_digit(10).unwrap();
                     curr_parent = curr_index;
+                    curr_parent_stack.push(curr_parent);
                     let mut current = Triple(curr_val, num_children, j);
                     tracker.push(current);
                     //reset j
