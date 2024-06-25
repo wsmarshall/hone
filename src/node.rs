@@ -117,7 +117,7 @@ impl ArenaTree {
             //where .0 is node value, .1 is num children, and .2 is current count
             let mut tracker = Vec::new();
             let mut curr_parent = 0;
-            //acting as a stack
+            //acting as a stack -- is this even needed?
             let mut curr_parent_stack = Vec::new();
             let mut num_children = 0;
             let mut i = 0; //for accessing/iterating 'list'
