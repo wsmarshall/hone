@@ -1,35 +1,15 @@
 impl Solution {
     pub fn is_valid(s: String) -> bool {
         let mut stack = Vec::<char>::new();
-
         for c in s.chars() {
-            if (c == '(' || c == '{' || c == '[') {
-                stack.push(c);
-                continue;
-            }
-
-            if c == ')' {
-                if !(stack.pop().unwrap_or('0') == '(') {
-                    return false;
-                }
-                continue;
-            }
-            if c == '}' {
-                if !(stack.pop().unwrap_or('0') == '{') {
-                    return false;
-                }
-                continue;
-            }
-            if c == ']' {
-                if !(stack.pop().unwrap_or('0') == '[') {
-                    return false;
-                }
-                continue;
+            match c {
+                '(' => stack.push(')'),
+                '{' => stack.push('}'),
+                '[' => stack.push(']'),
+                ')' | '}' | ']' if Some(c) != stack.pop() => return false,
+                _ => (),
             }
         }
-        if stack.len() > 0 {
-            return false;
-        }
-        true
+        stack.len() == 0
     }
 }
