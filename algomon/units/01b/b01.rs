@@ -1,33 +1,24 @@
-use std::cmp::Ordering::*;
+pub fn vanilla_binary(nums: Vec<i32>, target: i32) -> i32 {
+    //returns index if target found
+    //or -1 if not found
 
-pub fn vanilla_binary(list: &[usize], target: usize) -> Option<usize> {
-    //returns option Some with wrapped index of target
-    //or option None if not found
-    let mut left: usize = 0;
-    if list.is_empty() {
-        //accounting for the empty array input
-        return None;
-    }
-    let mut right: usize = list.len() - 1;
+    let mut left = 0;
+    let mut right = nums.len();
 
-    let mut mid: usize;
-
-    while left <= right {
-        mid = left + ((right - left) / 2); //to avoid overflow
-        match list[mid].cmp(&target) {
-            Equal => return Some(mid),
-            Less => left = mid + 1,
-            Greater => {
-                if right < 1 {
-                    //avoids underflow from usize indexing
-                    //particularly when right = 0
-                    break;
-                } else {
-                    right = mid - 1
-                }
-            }
+    while left < right {
+        let mid = left + (right - left) / 2; //to avoid overflow type errors
+        if nums[mid] == target {
+            return mid as i32;
+        }
+        if nums[mid] < target {
+            left = mid + 1;
+        }
+        //nums[mid] > target
+        else {
+            right = mid;
         }
     }
+
     //value not present in input array
-    None
+    -1
 }
