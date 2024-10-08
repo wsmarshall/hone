@@ -2,8 +2,8 @@
 
 fn sort_list(unsorted_list: Vec<i32>) -> Vec<i32> {
     let mut list = unsorted_list.clone();
-    let mut i = 1;
 
+    let mut i = 1;
     while i < list.len() {
         let mut j = i;
         while j > 0 && list[j] < list[j - 1] {
