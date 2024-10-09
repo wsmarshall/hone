@@ -6,7 +6,7 @@
  * assume it is guaranteed to find such
 */
 
-pub fn first_not_smaller(list: &[usize], target: usize) -> usize {
+pub fn first_not_smaller(arr: Vec<i32>, target: i32) -> i32 {
     let mut left = 0;
     let mut right = arr.len();
 

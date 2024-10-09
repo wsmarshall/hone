@@ -2,54 +2,24 @@
  * first_occurrence: given an array of integers sorted in increasing order and a target,
  * find the index of the first element in the array that is equal to the target
 */
-use std::cmp::Ordering::*;
 
-pub fn first_occurrence(list: &[usize], target: usize) -> Option<usize> {
-    let length = list.len();
-    //guarantees mean no need to check for empty list
-
+pub fn find_first_occurrence(arr: Vec<i32>, target: i32) -> i32 {
     let mut left = 0;
-    let mut right = length - 1; //guaranteed non-empty array
-    let mut mid;
+    let mut right = arr.len();
 
-    let mut current: Option<usize> = None;
-    let not_found: Option<usize> = None;
+    let mut index: i32 = -1;
+    while left < right {
+        let mid = left + (right - left) / 2;
 
-    while left <= right {
-        println!("just inside while");
-        mid = left + ((right - left) / 2); //to avoid overflow
-        match list[mid].cmp(&target) {
-            Equal => {
-                println!("just inside equal case");
-                current = Option::Some(mid);
-                if mid < 1 {
-                    println!("just inside equal if case");
-                    //avoids underflow from usize indexing
-                    //particularly when right = 0
-                    break;
-                } else {
-                    println!("just inside equal else case");
-                    right = mid - 1
-                }
-            }
-            Less => left = mid + 1,
-            Greater => {
-                println!("just inside greater case");
-                if right < 1 {
-                    println!("just inside greater if case");
-                    //avoids underflow from usize indexing
-                    //particularly when right = 0
-                    break;
-                } else {
-                    println!("just inside greater else case");
-                    right = mid - 1
-                }
-            }
+        if arr[mid] == target {
+            right = mid;
+            index = mid as i32;
+        } else if arr[mid] < target {
+            left = mid + 1;
+        } else {
+            //means arr[mid] > target
+            right = mid;
         }
     }
-
-    match current {
-        Some(_) => return current,
-        _ => return not_found,
-    }
+    index
 }
