@@ -45,93 +45,40 @@ Assign [2, 3], [5], and [7] separately to workers. The minimum time is 7.
 */
 
 //helper fn for testing a time for feasibility
-fn test_time(list: &[usize], time: usize, workers: usize) -> bool {
-    let mut workers_used = 0;
-    let mut temp = 0;
+fn feasible(newspapers_read_times: &Vec<i32>, num_readers: i32, limit: i32) -> bool {
+    let mut time = 0;
+    let mut workers = 0;
 
-    for i in list {
-        println!("i: {}", i);
-        if i + temp > time && workers_used < workers - 1 {
-            println!(
-                "if: i + temp: {}, time: {}, workers_used: {}, workers: {}",
-                i + temp,
-                time,
-                workers_used,
-                workers
-            );
-            workers_used = workers_used + 1;
-            temp = *i;
-        } else if i + temp <= time && workers_used < workers {
-            println!(
-                "else if: i + temp: {}, time: {}, workers_used: {}, workers: {}",
-                i + temp,
-                time,
-                workers_used,
-                workers
-            );
-            temp = temp + i;
-        } else {
-            println!(
-                "else: i + temp: {}, time: {}, workers_used: {}, workers: {}",
-                i + temp,
-                time,
-                workers_used,
-                workers
-            );
-            println!("test time, RETURNING FALSE");
-            return false;
+    for i in newspapers_read_times {
+        if time + i > limit {
+            time = 0;
+            workers += 1;
         }
+        time += i;
     }
-    println!("test time, returning TRUE");
-    return true;
+
+    if time != 0 {
+        workers += 1;
+    }
+
+    workers <= num_readers
 }
 
-pub fn newspapers_split(list: &[usize], num_coworkers: usize) -> usize {
-    let mut smallest_time = 0;
-    let mut largest_time = 0;
-    let mut times = Vec::new();
-    let mut current_best_time = usize::MAX;
+fn newspapers_split(newspapers_read_times: Vec<i32>, num_coworkers: i32) -> i32 {
+    let mut left: i32 = *newspapers_read_times.iter().max().unwrap();
+    let mut right: i32 = newspapers_read_times.iter().sum::<i32>();
 
-    for i in 0..list.len() {
-        if list[i] > smallest_time {
-            smallest_time = list[i];
-        }
-        largest_time = largest_time + list[i];
-    }
+    let mut ans = 0;
 
-    for i in smallest_time..largest_time + 1 {
-        times.push(i);
-    }
-    println!("times list: {:?}", times);
+    while left < right {
+        let mid = left + (right - left) / 2;
 
-    let length = times.len();
-
-    let mut left = 0;
-    let mut right = length - 1; //guaranteed non-empty array
-    let mut mid = 0;
-
-    while left <= right {
-        println!("just inside while");
-        mid = left + ((right - left) / 2); //to avoid overflow
-        if test_time(&list, times[mid], num_coworkers) {
-            current_best_time = times[mid];
-            //true
-            if mid < 1 {
-                println!("just inside if if case RIGHT BEFORE BREAK");
-                println!("left, right, mid = {}, {}, {}", left, right, mid);
-                //avoids underflow from usize indexing
-                //particularly when right = 0
-                break;
-            } else {
-                println!("just inside if else case");
-                println!("left, right, mid = {}, {}, {}", left, right, mid);
-                right = mid - 1;
-            }
+        if feasible(&newspapers_read_times, num_coworkers, mid) {
+            ans = mid;
+            right = mid;
         } else {
-            println!("inside else case");
             left = mid + 1;
         }
     }
-
-    current_best_time
+    ans
 }
