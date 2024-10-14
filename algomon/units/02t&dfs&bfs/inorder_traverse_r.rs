@@ -11,8 +11,10 @@ impl Solution {
         v
     }
 
+    //helper function for recursive call
     fn inorder(node: &OptNode, v: &mut Vec<i32>) {
         if let Some(n) = node {
+            //b is Option<Rc<Refcell<TreeNode>>>
             let b = n.borrow();
             Self::inorder(&b.left, v);
             v.push(b.val);
