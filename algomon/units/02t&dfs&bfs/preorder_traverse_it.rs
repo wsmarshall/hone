@@ -16,3 +16,8 @@
 //     }
 //   }
 // }
+use std::cell::RefCell;
+use std::rc::Rc;
+impl Solution {
+    pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {}
+}
