@@ -18,6 +18,9 @@
 // }
 use std::cell::RefCell;
 use std::rc::Rc;
+
+type: OptioNode = Option<Rc<RefCell<TreeNode>>>;
+
 impl Solution {
     pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut v = Vec::new();
