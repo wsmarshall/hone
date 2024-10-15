@@ -34,7 +34,7 @@ impl Solution {
     //helper function for recursive call
     fn inorder(node: &OptNode, v: &mut Vec<i32>) {
         if let Some(n) = node {
-            //b is Option<Rc<Refcell<TreeNode>>>
+            //n is Rc<Refcell<TreeNode>>, b is Refcell<TreeNode>
             let b = n.borrow();
             Self::inorder(&b.left, v);
             v.push(b.val);
