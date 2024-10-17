@@ -28,6 +28,9 @@ impl Solution {
         let binding = root.clone().unwrap();
         let b = binding.borrow();
 
-        (Self::max_depth(b.left.clone()).max(Self::max_depth(b.right.clone()))) + 1
+        std::cmp::max(
+            Self::max_depth(b.left.clone()),
+            Self::max_depth(b.right.clone()),
+        ) + 1
     }
 }

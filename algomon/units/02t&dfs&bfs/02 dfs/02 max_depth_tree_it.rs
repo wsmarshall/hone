@@ -28,7 +28,7 @@ impl Solution {
             if let Some(n) = node {
                 let b = n.borrow();
                 depth += 1;
-                max_depth = max_depth.max(depth);
+                max_depth = std::cmp::max(max_depth, depth);
 
                 stack.push((b.right.clone(), depth));
                 stack.push((b.left.clone(), depth));
