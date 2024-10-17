@@ -24,6 +24,24 @@ impl Solution {
         root: Option<Rc<RefCell<TreeNode>>>,
         val: i32,
     ) -> Option<Rc<RefCell<TreeNode>>> {
-        //stub
+        let mut stack = Vec::new();
+        stack.push(root);
+
+        while let Some(Some(node)) = stack.pop() {
+            let b = node.borrow();
+
+            if b.val == val {
+                return Some(Rc::clone(&node));
+            }
+
+            if let Some(left) = &b.left {
+                stack.push(Some(Rc::clone(&left)));
+            }
+
+            if let Some(right) = &b.right {
+                stack.push(Some(Rc::clone(&right)));
+            }
+        }
+        None
     }
 }
