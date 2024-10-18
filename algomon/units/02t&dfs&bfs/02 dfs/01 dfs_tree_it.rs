@@ -24,22 +24,21 @@ impl Solution {
         root: Option<Rc<RefCell<TreeNode>>>,
         val: i32,
     ) -> Option<Rc<RefCell<TreeNode>>> {
-        let mut stack = Vec::new();
-        stack.push(root);
+        let mut stack = vec![root];
 
         while let Some(Some(node)) = stack.pop() {
             let b = node.borrow();
 
             if b.val == val {
-                return Some(Rc::clone(&node));
+                return Some(node.clone());
             }
 
             if let Some(right) = &b.right {
-                stack.push(Some(Rc::clone(&right)));
+                stack.push(Some(right.clone()));
             }
 
             if let Some(left) = &b.left {
-                stack.push(Some(Rc::clone(&left)));
+                stack.push(Some(left.clone()));
             }
         }
         None
