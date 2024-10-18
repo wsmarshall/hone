@@ -33,12 +33,12 @@ impl Solution {
                 return Some(node.clone());
             }
 
-            if b.left.is_some() {
-                stack.push(b.left.clone());
-            }
-
             if b.right.is_some() {
                 stack.push(b.right.clone());
+            }
+
+            if b.left.is_some() {
+                stack.push(b.left.clone());
             }
         }
         None
