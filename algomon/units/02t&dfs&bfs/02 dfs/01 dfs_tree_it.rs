@@ -34,12 +34,12 @@ impl Solution {
                 return Some(Rc::clone(&node));
             }
 
-            if let Some(left) = &b.left {
-                stack.push(Some(Rc::clone(&left)));
-            }
-
             if let Some(right) = &b.right {
                 stack.push(Some(Rc::clone(&right)));
+            }
+
+            if let Some(left) = &b.left {
+                stack.push(Some(Rc::clone(&left)));
             }
         }
         None
