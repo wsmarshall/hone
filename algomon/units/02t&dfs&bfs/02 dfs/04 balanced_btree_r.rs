@@ -1,16 +1,27 @@
 fn is_balanced(tree: Tree<i32>) -> bool {
-    if tree.is_none(){
+    if tree.is_none() {
         return true;
     }
-    else if let Some(n) = tr
-    let left_height = Self::is_balanced_helper(
-    false
+
+    return tree_height(tree) != -1;
 }
 
 fn tree_height(tree: Tree<i32>) -> i32 {
-    if tree.is_none() {
+    if let Some(n) = tree {
+        let left_height = tree_height(n.left);
+        let right_height = tree_height(n.right);
+
+        if left_height == -1 || right_height == -1 {
+            return -1;
+        }
+
+        if (left_height - right_height).abs() > 1 {
+            return -1;
+        }
+
+        return std::cmp::max(left_height, right_height) + 1;
+    } else {
+        //tree.is_none()
         return 0;
     }
-    
-    
 }
