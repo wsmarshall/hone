@@ -20,7 +20,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        let mut dstack = Vec::new();
+        let mut dstack = Vec::new(); //depth stack for right depths, holds i32s
         let mut stack = Vec::new();
         stack.push((1 as i32, 0 as i32, false, false, root));
         while let Some((depth, left_depth, seen_left, seen_right, node)) = stack.pop() {
@@ -46,15 +46,15 @@ impl Solution {
                 } else {
                     let ldepth = left_depth;
                     let rdepth = dstack.pop().unwrap();
-                    if 1 < (ldepth - rdepth).abs() {
+                    if (ldepth - rdepth).abs() > 1 {
                         return false;
                     }
-                    dstack.push(ldepth.max(rdepth));
+                    dstack.push(std::cmp::max(ldepth, rdepth));
                 }
             } else {
                 dstack.push(depth - 1);
             }
         }
-        return true;
+        true
     }
 }
