@@ -1,63 +1,60 @@
-//TODO non working example attemp modelled from The goog's AIOverview
-/**
-* def is_balanced(root):
-   """
-   Checks if a binary tree is balanced iteratively.
-
-   A balanced binary tree is one in which the height of the left and right
-   subtrees of every node differ by at most one.
-
-   Args:
-       root: The root node of the binary tree.
-
-   Returns:
-       bool: True if the tree is balanced, False otherwise.
-   """
-
-   if not root:
-       return True
-
-   stack = [(root, 0)]
-   depth = {}
-
-   while stack:
-       node, level = stack.pop()
-
-       if not node:
-           continue
-
-       if node not in depth:
-           depth[node] = level
-
-       if node.left:
-           stack.append((node.left, level + 1))
-       if node.right:
-           stack.append((node.right, level + 1))
-
-       if node.left in depth and node.right in depth:
-           if abs(depth[node.left] - depth[node.right]) > 1:
-               return False
-
-   return True
-*/
-fn is_balanced(tree: Tree<i32>) -> bool {
-    //node and level for tuple fields
-    let mut stack = vec![(tree, 0)];
-    let mut depth = HashMap::new();
-
-    while let Some((Some(node), level)) = stack.pop() {
-        if !depth.contains_key(&node.val) {
-            depth.insert(node.val, level);
-        }
-
-        stack.push((node.left, level + 1));
-        stack.push((node.right, level + 1));
-
-        if depth.contains_key(&node.left.val) && depth.contains_key(&node.right.val) {
-            if (depth.get(&node.left.val).unwrap() - depth.get(&node.right.val).unwrap()).abs > 1 {
-                return false;
+// Definition for a binary tree node.
+// #[derive(Debug, PartialEq, Eq)]
+// pub struct TreeNode {
+//   pub val: i32,
+//   pub left: Option<Rc<RefCell<TreeNode>>>,
+//   pub right: Option<Rc<RefCell<TreeNode>>>,
+// }
+//
+// impl TreeNode {
+//   #[inline]
+//   pub fn new(val: i32) -> Self {
+//     TreeNode {
+//       val,
+//       left: None,
+//       right: None
+//     }
+//   }
+// }
+use std::cell::RefCell;
+use std::rc::Rc;
+impl Solution {
+    pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        let mut dstack = Vec::new();
+        let mut stack = Vec::new();
+        stack.push((1 as i32, 0 as i32, false, false, root));
+        while let Some((depth, left_depth, seen_left, seen_right, node)) = stack.pop() {
+            if let Some(nval) = node.clone() {
+                if !seen_left {
+                    stack.push((depth, left_depth, true, false, node.clone()));
+                    stack.push((
+                        depth + 1,
+                        left_depth,
+                        false,
+                        false,
+                        nval.borrow().left.clone(),
+                    ));
+                } else if !seen_right {
+                    stack.push((depth, dstack.pop().unwrap(), true, true, node.clone()));
+                    stack.push((
+                        depth + 1,
+                        left_depth,
+                        false,
+                        false,
+                        nval.borrow().right.clone(),
+                    ));
+                } else {
+                    let ldepth = left_depth;
+                    let rdepth = dstack.pop().unwrap();
+                    if 1 < (ldepth - rdepth).abs() {
+                        return false;
+                    }
+                    dstack.push(ldepth.max(rdepth));
+                }
+            } else {
+                dstack.push(depth - 1);
             }
         }
+        return true;
     }
-    true
 }
