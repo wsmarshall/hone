@@ -1,4 +1,8 @@
 fn subtree_of_another_tree(root: Tree<i32>, sub_root: Tree<i32>) -> bool {
+    //TODO
+}
+
+fn is_same_tree(tree1: Tree<i32>, tree2: Tree<i32>) -> bool {
     if root.is_none() && sub_root.is_none() {
         return true;
     }
