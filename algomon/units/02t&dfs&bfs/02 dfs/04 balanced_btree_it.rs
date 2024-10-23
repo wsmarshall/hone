@@ -21,27 +21,26 @@ use std::rc::Rc;
 impl Solution {
     pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
         let mut dstack = Vec::new(); //depth stack for right depths, holds i32s
-        let mut stack = Vec::new();
-        stack.push((1 as i32, 0 as i32, false, false, root));
-        while let Some((depth, left_depth, seen_left, seen_right, node)) = stack.pop() {
+        let mut stack = vec![(root, 0 as i32, 0 as i32, false, false)];
+        while let Some((node, depth, left_depth, seen_left, seen_right)) = stack.pop() {
             if let Some(nval) = node.clone() {
                 if !seen_left {
-                    stack.push((depth, left_depth, true, false, node.clone()));
+                    stack.push((node.clone(), depth, left_depth, true, false));
                     stack.push((
+                        nval.borrow().left.clone(),
                         depth + 1,
                         left_depth,
                         false,
                         false,
-                        nval.borrow().left.clone(),
                     ));
                 } else if !seen_right {
-                    stack.push((depth, dstack.pop().unwrap(), true, true, node.clone()));
+                    stack.push((node.clone(), depth, dstack.pop().unwrap(), true, true));
                     stack.push((
+                        nval.borrow().right.clone(),
                         depth + 1,
                         left_depth,
                         false,
                         false,
-                        nval.borrow().right.clone(),
                     ));
                 } else {
                     let ldepth = left_depth;
