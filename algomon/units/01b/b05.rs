@@ -6,50 +6,26 @@
 use std::cmp::Ordering::*;
 
 pub fn square_root(target: usize) -> Option<usize> {
-    //creates an array of integers from 0 to n
-    let mut list = Vec::new();
-    for i in 0..target + 1 {
-        list.push(i);
-    }
-    let length = list.len();
-    //guarantees mean no need to check for empty list
-
+    let nums: Vec<i32> = (0..n + 1).collect();
     let mut left = 0;
-    let mut right = length - 1; //guaranteed non-empty array
-    let mut mid;
+    let mut right = nums.len();
 
-    let mut current: Option<usize> = None;
-    let not_found: Option<usize> = None;
+    let mut sqrt: i32 = 0;
 
-    while left <= right {
-        println!("just inside while");
-        mid = left + ((right - left) / 2); //to avoid overflow
-        let num = list[mid];
-        let square = num * num;
-        match square.cmp(&target) {
-            //TODO think through this bit
-            Equal | Less => {
-                println!("just inside equal or less case");
-                left = mid + 1;
-                current = Option::Some(mid);
-            }
-            Greater => {
-                println!("just inside greater case");
-                if right < 1 {
-                    println!("just inside greater if case");
-                    //avoids underflow from usize indexing
-                    //particularly when right = 0
-                    break;
-                } else {
-                    println!("just inside greater else case");
-                    right = mid - 1
-                }
-            }
+    while left < right {
+        let mid = left + (right - left) / 2;
+        let test = nums[mid] * nums[mid];
+
+        if test == n {
+            sqrt = nums[mid];
+            return sqrt;
+        } else if test < n {
+            left = mid + 1;
+            sqrt = nums[mid];
+        } else {
+            right = mid;
         }
     }
 
-    match current {
-        Some(_) => return current,
-        _ => return not_found,
-    }
+    sqrt
 }
