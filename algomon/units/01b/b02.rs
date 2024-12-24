@@ -29,7 +29,7 @@ fn find_boundary(arr: Vec<bool>) -> i32 {
         if arr[mid] {
             index = mid as i32;
             right = mid;
-        } else if !arr[mid] {
+        } else {
             left = mid + 1;
         }
     }
