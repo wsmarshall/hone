@@ -5,7 +5,7 @@ fn sort_list(unsorted_list: Vec<i32>) -> Vec<i32> {
 
     let mut mindex;
     for i in 0..list.len() {
-        let mut mindex = i;
+        mindex = i;
 
         for j in i..list.len() {
             if list[j] < list[mindex] {
