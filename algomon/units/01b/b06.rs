@@ -8,7 +8,7 @@ fn find_min_rotated(arr: Vec<i32>) -> i32 {
     let mut left = 0;
     let mut right = arr.len() - 1;
 
-    let mut index = arr.len() - 1;
+    let mut index = right;
 
     while left < right {
         let mid = left + (right - left) / 2;
