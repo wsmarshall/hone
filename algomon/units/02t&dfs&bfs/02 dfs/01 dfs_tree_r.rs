@@ -21,6 +21,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 type OptioNode = Option<Rc<RefCell<TreeNode>>>;
+
 impl Solution {
     pub fn search_bst(root: OptioNode, val: i32) -> OptioNode {
         if root.is_none() {
