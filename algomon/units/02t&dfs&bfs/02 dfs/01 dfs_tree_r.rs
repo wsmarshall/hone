@@ -39,6 +39,6 @@ impl Solution {
             return left;
         }
 
-        return Self::search_bst(b.right.clone(), val);
+        Self::search_bst(b.right.clone(), val)
     }
 }
