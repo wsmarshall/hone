@@ -1,6 +1,7 @@
 //a quick insertion sort
 
 fn sort_list(unsorted_list: Vec<i32>) -> Vec<i32> {
+    //cloning is completely optional; can use the raw list
     let mut list = unsorted_list.clone();
 
     let mut i = 1;
