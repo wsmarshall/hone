@@ -17,6 +17,7 @@ fn is_same_tree(tree1: Tree<i32>, tree2: Tree<i32>) -> bool {
         return true;
     }
 
+    //this acts as an XOR because of the initial if above
     if tree1.is_none() || tree2.is_none() {
         return false;
     } else if let Some(node1) = tree1 {
