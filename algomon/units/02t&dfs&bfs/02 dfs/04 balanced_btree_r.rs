@@ -20,8 +20,9 @@ fn tree_height(tree: Tree<i32>) -> i32 {
         }
 
         return std::cmp::max(left_height, right_height) + 1;
-    } else {
-        //subtree is null
-        return 0;
     }
+
+    //implicit else
+    //subtree is null
+    0
 }
