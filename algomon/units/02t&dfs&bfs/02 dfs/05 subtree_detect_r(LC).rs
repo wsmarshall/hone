@@ -30,6 +30,7 @@ impl Solution {
 
     pub fn is_subtree_recursive(root: &Option<NodeRef>, sub_root: &Option<NodeRef>) -> bool {
         match (root, sub_root) {
+            (None, None) => true,
             (None, _) => false,
             (Some(node), Some(sub_node)) => {
                 let node = node.borrow();
