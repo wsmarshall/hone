@@ -20,27 +20,29 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-type OptioNode = Option<Rc<RefCell<TreeNode>>>;
-
 impl Solution {
-    pub fn search_bst(root: OptioNode, val: i32) -> OptioNode {
+    pub fn search_bst(
+        root: Option<Rc<RefCell<TreeNode>>>,
+        val: i32,
+    ) -> Option<Rc<RefCell<TreeNode>>> {
         let mut stack = vec![root];
 
-        while let Some(Some(node)) = stack.pop() {
-            let b = node.borrow();
+        while let Some(Some(rc)) = stack.pop() {
+            let node = rc.borrow();
 
-            if b.val == val {
-                return Some(node.clone());
+            if node.val == val {
+                return Some(rc.clone());
             }
 
-            if b.right.is_some() {
-                stack.push(b.right.clone());
+            if node.right.is_some() {
+                stack.push(node.right.clone());
             }
 
-            if b.left.is_some() {
-                stack.push(b.left.clone());
+            if node.left.is_some() {
+                stack.push(node.left.clone());
             }
         }
+
         None
     }
 }
