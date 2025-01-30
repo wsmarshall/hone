@@ -1,13 +1,11 @@
-fn bck(n: i32, tokens: &Vec<&str>, res: &mut Vec<&str>, path: &mut Vec<&str>) {
+fn bck(n: i32, tokens: &Vec<&str>, res: &mut Vec<String>, path: &mut Vec<String>) {
     if path.len() >= n.try_into().unwrap() {
-        let word = path.join("");
-        res.push(&word);
-        path.pop();
+        res.push(path.join(""));
         return;
     }
 
     for i in tokens {
-        path.push(i.clone());
+        path.push(i.clone().to_string());
         bck(n, tokens, res, path);
         path.pop();
     }
