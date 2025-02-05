@@ -13,13 +13,13 @@ fn dfs(
 ) {
     //is leaf
     if start_index >= n {
-        res.push(path.collect());
+        res.push(path.join(""));
         return;
     }
 
     //get edges
-    for i in map.get(number[i]) {
-        path.push(i);
+    for i in map.get(&number[start_index]) {
+        path.push(i[start_index]);
         dfs(n, start_index + 1, path, map, number, res);
         path.pop();
     }
