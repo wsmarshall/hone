@@ -7,8 +7,8 @@ fn dfs(
     n: usize,
     start_index: usize,
     path: &mut Vec<String>,
-    map: HashMap<String, Vec<String>>,
-    number: Vec<String>,
+    map: HashMap<&str, Vec<&str>>,
+    number: Vec<&str>,
     res: &mut Vec<String>,
 ) {
     //is leaf
@@ -18,10 +18,12 @@ fn dfs(
     }
 
     //get edges
-    for i in map.get(&number[start_index]) {
-        path.push(i[start_index]);
-        dfs(n, start_index + 1, path, map, number, res);
-        path.pop();
+    if let Some(v) = map.get(number[start_index]) {
+        for i in v {
+            path.push(i.to_string());
+            dfs(n, start_index + 1, path, map.clone(), number.clone(), res);
+            path.pop();
+        }
     }
 }
 
@@ -37,14 +39,15 @@ fn letter_combinations_of_phone_number(digits: String) -> Vec<String> {
         ("9", vec!["w", "x", "y", "z"]),
     ]);
 
-    let number: Vec<&str> = digits.split("").collect();
+    let mut number: Vec<&str> = digits.split("").collect();
+    number.remove(0);
+    number.pop();
 
     let mut res = Vec::<String>::new();
     let mut path = Vec::<String>::new();
 
     let n = number.len();
-
-    dfs(n, 0, &mut path, map, number, &mut res);
+    dfs(n, 0, &mut path, map.clone(), number.clone(), &mut res);
 
     res
 }
