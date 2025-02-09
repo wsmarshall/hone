@@ -1,24 +1,28 @@
-fn is_palindrome(chars: &Vec<String>, left: usize, right: usize) -> bool {
-    let mut l = left;
-    let mut r = right;
-    while (l < r) {
-        if chars[left] != chars[right] {
-                return false;
+fn is_palindrome(chars: &Vec<String>) -> bool {
+    let mut l = 0;
+    let mut r = chars.len() - 1;
+    while l < r {
+        if chars[l] != chars[r] {
+            return false;
         }
-        l+=1;
-        r-=1;
+        l += 1;
+        r -= 1;
     }
     true
 }
 
-fn dfs(n: usize, start_index: usize, chars: &Vec<&str>, 
-    path: &mut Vec<String>, res: &mut &Vec<Vec<String>>) {
-        
-    if start_index >=n {
+fn dfs(
+    n: usize,
+    start_index: usize,
+    chars: &Vec<&str>,
+    path: &mut Vec<String>,
+    res: &mut &Vec<Vec<String>>,
+) {
+    if start_index >= n {
         res.push(path.clone());
         return;
     }
-        
+
     for i in start_index..n {
         if !is_palindrome(path) {
             return;
@@ -28,21 +32,20 @@ fn dfs(n: usize, start_index: usize, chars: &Vec<&str>,
             path.pop();
         }
     }
-        
 }
 
 fn partition(s: String) -> Vec<Vec<String>> {
-    let mut path = Vec<String>;
-    
+    let mut path = Vec::<String>::new();
+
     let mut chars: Vec<&str> = s.split("").collect();
     chars.remove(0);
     chars.pop();
-   
+
     let n = chars.len();
-    
-    let mut res = Vec::<Vec::<String>>::new();
-    
+
+    let mut res = Vec::<Vec<String>>::new();
+
     dfs(n, 0, &chars, &mut path, &mut res);
-    
+
     res
 }
