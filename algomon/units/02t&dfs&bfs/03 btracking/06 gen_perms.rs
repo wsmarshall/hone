@@ -27,11 +27,8 @@ fn permutations(letters: String) -> Vec<String> {
     let mut answers = Vec::<String>::new();
     let chars: Vec<char> = letters.chars().collect();
 
-    let mut used = Vec::<bool>::new();
+    let mut used: Vec<bool> = vec![false; chars.len()];
 
-    for i in 0..chars.len() {
-        used.push(false);
-    }
     dfs(&chars, &mut candidates, &mut answers, 0, &mut used);
 
     answers
