@@ -11,9 +11,20 @@ fn remove_duplicates(arr: &mut Vec<i32>) -> usize {
     let len = arr.len();
 
     while right < len {
-        if arr[left] == arr[right] {
+        if arr[right] == arr[left] {
             right += 1;
+            continue;
         }
+
+        if arr[right] != prev {
+            prev == arr[right];
+            right += 1;
+            continue;
+        }
+
+        right += 1;
+        left += 1;
+        //arr[right] != arr[left] && arr[right]
     }
 
     left
