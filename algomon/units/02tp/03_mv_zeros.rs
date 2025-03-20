@@ -4,10 +4,16 @@ impl Solution {
         let mut right = 1;
 
         while right < nums.len() {
-            if nums[left] == 0 {
+            if nums[left] == 0 && nums[right] != 0 {
                 let temp = nums[left];
                 nums[left] = nums[right];
+                nums[right] = temp;
+                left += 1;
             }
+            if nums[left] != 0 {
+                left += 1;
+            }
+            right += 1;
         }
     }
 }
