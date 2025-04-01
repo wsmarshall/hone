@@ -4,40 +4,18 @@ use std::fmt::Display;
 use std::io;
 
 fn find_all_anagrams(original: String, check: String) -> Vec<i32> {
-    let mut indices = vec![];
-    let mut reference = HashMap::new();
+    const SIZE: usize = 26;
 
-    let og_chars: Vec<char> = original.chars().collect();
-    let check_chars: Vec<char> = check.chars().collect();
+    fn find_all_anagrams(original: String, check: String) -> Vec<i32> {
+        let mut indices = vec![];
 
-    for i in og_chars {
-        *reference.entry(i).or_insert(0) += 1;
-    }
+        let idx = |c: u8| (c - 'a' as u8) as usize;
 
-    let mut left = 0;
-    let mut right = check.len() - 1;
-    let mut current = HashMap::new();
-
-    for i in left..check.len() {
-        *current.entry(check_chars[i]).or_insert(0) += 1;
-    }
-
-    while right < check.len() - 1 {
-        if current.eq(&reference) {
-            indices.push(left.try_into().unwrap());
+        let mut anagram = [0u8; SIZE];
+        for c in check.chars() {
+            anagram[idx(c as u8)] += 1;
         }
 
-        if let Some(v) = current.get(&check_chars[left]) {
-            if *v == 1 {
-                current.remove(&check_chars[left]);
-            } else {
-                *current.entry(check_chars[left]).or_insert(1) -= 1;
-            }
-        }
-        left += 1;
-        right += 1;
-        *current.entry(check_chars[right]).or_insert(0) += 1;
+        indices
     }
-
-    indices
 }
