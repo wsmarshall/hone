@@ -17,9 +17,12 @@ fn subarray_sum_longest(nums: Vec<i32>, target: i32) -> i32 {
         let window = &nums[left..right];
         let sum: i32 = window.iter().sum();
         if sum <= target {
-            max = std::cmp::max(max, (right - left + 1) as i32);
+            max = std::cmp::max(max, (right - left) as i32);
+            right += 1;
+        } else {
+            //sum exceeds target
+            left += 1;
         }
-        right += 1;
     }
     max
 }
