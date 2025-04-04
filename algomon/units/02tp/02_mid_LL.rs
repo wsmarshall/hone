@@ -23,6 +23,14 @@ struct Node<T> {
 }
 
 fn middle_of_linked_list(head: List<i32>) -> i32 {
-    // WRITE YOUR BRILLIANT CODE HERE
-    0
+    let mut fast = &head;
+    let mut slow = &head;
+    while let Some(n) = *fast.next {
+        slow = n.next;
+        fast = n.next;
+        if let Some(o) = *fast.next {
+            fast = o.next;
+        }
+    }
+    slow.val
 }
