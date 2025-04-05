@@ -27,3 +27,30 @@ fn longest_substring_without_repeating_characters(s: String) -> i32 {
 
     max_len
 }
+
+//alternate solution with HashSet approach:
+/**
+ * fn longest_substring_without_repeating_characters(s: String) -> i32 {
+    let length = s.len();
+    if length == 0 {
+        return 0;
+    }
+    
+    let string: Vec<char> = s.chars().collect();
+    let mut acc = HashSet::new();
+    let mut max_len: i32 = 0;
+    let mut left = 0;
+    for right in 0..length {
+        while acc.contains(&string[right]) {
+            acc.remove(&string[left]);
+            left += 1;
+        }
+        
+        acc.insert(&string[right]);
+        max_len = std::cmp::max(max_len, (right - left + 1) as i32);   
+    }
+    
+    max_len
+    
+}
+ */
