@@ -15,11 +15,14 @@ fn least_consecutive_cards_to_match(cards: Vec<i32>) -> i32 {
     for right in 0..length {
         while hand.contains_key(&cards[right]) {
             least_cards = std::cmp::min(least_cards, (right - left + 1) as i32);
-            *hand.entry(cards[left]).or_insert(1) -= 1;
+            hand.remove(&cards[left]);
             left += 1;
         }
         *hand.entry(cards[right]).or_insert(0) += 1;
     }
 
+    if least_cards > length.try_into().unwrap() {
+        return -1;
+    }
     least_cards
 }
