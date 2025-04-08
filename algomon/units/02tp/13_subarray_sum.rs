@@ -18,9 +18,10 @@ fn subarray_sum(arr: Vec<i32>, target: i32) -> Vec<i32> {
 
         if let Some(n) = pre_sums.get(&complement) {
             indices.push((*n).try_into().unwrap());
-            indices.push(i as i32 + 1);
+            indices.push((i + 1).try_into().unwrap());
             break;
         }
+
         pre_sums.insert(pre_sum.try_into().unwrap(), i + 1);
     }
 
