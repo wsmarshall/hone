@@ -26,3 +26,30 @@ fn least_consecutive_cards_to_match(cards: Vec<i32>) -> i32 {
     }
     least_cards
 }
+
+/**
+ * fn least_consecutive_cards_to_match(cards: Vec<i32>) -> i32 {
+    let length = cards.len();
+    if length == 0 {
+        return 0;
+    }
+    
+    let mut hand = HashSet::new();
+    let mut min_len: i32 = (length + 1) as i32;
+    let mut left = 0;
+    for right in 0..length {
+        while hand.contains(&cards[right]) {
+            min_len = std::cmp::min(min_len, (right - left + 1).try_into().unwrap());
+            hand.remove(&cards[left]);
+            left += 1;
+        }
+        hand.insert(cards[right]);
+    }
+    
+    if min_len == (length + 1) as i32 {
+        return -1;
+    }
+    
+    min_len
+}
+ */
