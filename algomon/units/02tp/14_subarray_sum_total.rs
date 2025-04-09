@@ -4,11 +4,6 @@ use std::io;
 use std::str::FromStr;
 
 fn subarray_sum_total(arr: Vec<i32>, target: i32) -> i32 {
-    let length: i32 = arr.len().try_into().unwrap();
-    if length == 0 {
-        return 0;
-    }
-
     let mut pre_sums: HashMap<i32, i32> = HashMap::new();
     pre_sums.insert(0, 1);
 
