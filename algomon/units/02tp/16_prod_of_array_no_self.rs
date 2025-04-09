@@ -10,9 +10,16 @@ fn product_of_array_except_self(nums: Vec<i32>) -> Vec<i32> {
     let mut ans = vec![];
 
     prod = 1;
-    for (i, el) in nums.iter().rev().enumerate() {
-        ans.push(prod * left_prod[i]);
-        prod *= el;
+    let mut i = nums.len() - 1;
+    while i >= 0 {
+        ans.insert(0, prod * left_prod[i]);
+        prod *= nums[i];
+
+        if i > 0 {
+            i -= 1;
+        } else {
+            break;
+        }
     }
 
     ans
