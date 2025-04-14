@@ -14,14 +14,14 @@ fn maximum_score(arr1: Vec<i32>, arr2: Vec<i32>) -> i32 {
 
     while e1 < n1 || e2 < n2 {
         if e1 < n1 && e2 < n2 && arr1[e1] == arr2[e2] {
-            max_score += std::cmp::max(sum1 + arr1[e1], sum2 + arr2[e2]) % MOD;
+            max_score += (std::cmp::max(sum1, sum2) + arr1[e1]) % MOD;
             sum1 = 0;
             sum2 = 0;
             e1 += 1;
             e2 += 1;
             continue;
         }
-        if e1 < n1 && e2 == n2 {
+        if e2 == n2 || (e1 != n1 && arr1[e1] < arr2[e2]) {
             sum1 += arr1[e1] % MOD;
             e1 += 1;
         } else {
