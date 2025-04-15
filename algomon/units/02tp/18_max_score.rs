@@ -21,13 +21,13 @@ fn maximum_score(arr1: Vec<i32>, arr2: Vec<i32>) -> i32 {
             e2 += 1;
             continue;
         }
-        if e2 == n2 || (e1 != n1 && arr1[e1] < arr2[e2]) {
-            sum1 += arr1[e1] % MOD;
-            e1 += 1;
-        } else {
-            //arr1[e1] > arr2[e2]
+        if e1 == n1 || (e2 != n2 && arr2[e2] < arr1[e1]) {
             sum2 += arr2[e2] % MOD;
             e2 += 1;
+        } else {
+            //arr2[e2] > arr1[e1]
+            sum1 += arr1[e1] % MOD;
+            e1 += 1;
         }
     }
 
