@@ -2,13 +2,13 @@ use std::error;
 use std::io;
 
 const size: usize = 58; //number of characters in ascii 'A' -> 'z'
-//NB middle has non-alpha chars
+                        //NB middle has non-alpha chars
 
 //checks to see if a slice contains another wrt character counts
-fn contains_helper(original: &[u8], window: &[u8]) -> bool {
-    for i, el in window.iter().enumerate() {
+fn contains_helper(big: &[u8], window: &[u8]) -> bool {
+    for (i, el) in window.iter().enumerate() {
         if el > 0 {
-            if original[i] != el {
+            if big[i] != el {
                 return false;
             }
         }
@@ -17,26 +17,42 @@ fn contains_helper(original: &[u8], window: &[u8]) -> bool {
 }
 
 fn get_minimum_window(original: String, check: String) -> String {
+    let mut ans: String = String::new();
     let og_bytes = original.as_bytes();
     let check_bytes = check.as_bytes();
-    
-    let idx = |c: u8| {(c - 'A' as u8) as usize};
+
+    let idx = |c: u8| (c - 'A' as u8) as usize;
     //TODO use clone_from_slice or copy_from_slice methods later
-    let len = original.len();
-    
-    let mut og = [0u8; size];
-    for i in 0..len {
-        
+
+    //get the character counts from the 'check' string
+    let mut check_count = [0u8; size];
+    for i in 0..check.len() {
+        check_count[idx(check.chars().nth(i))] += 1;
     }
-    
+
     let mut window = [0u8; size];
+    let mut min_len = original.len() + 1;
     let mut left = 0;
-    
-    for right in 0..len {
+
+    for right in 0..original.len() {
         window[idx(original.chars().nth(right))] += 1;
-        while 
+        while contains_helper(&window, &check_count) {
+            //check length, get new mindow if applicable
+            if right - left < min_len {
+                ans = &window[left..right + 1].copy_from_slice();
+            } else if right - left == min_len {
+                //whichever string is lexicographically first
+                let s1 = ans.make_ascii_lowercase();
+                let s2 = &window[left..right + 1]
+                    .copy_from_slice()
+                    .make_ascii_lowercase();
+                match s1.cmp(&s2) {
+                    std::cmp::Ordering::Greater => ans = &window[left..right + 1].copy_from_slice(),
+                }
+            }
+            window[idx(original.chars().nth(left))] -= 1;
+            left += 1;
+        }
     }
-    let mut ans: String;
-    
     ans
 }
