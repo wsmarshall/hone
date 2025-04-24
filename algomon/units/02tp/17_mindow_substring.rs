@@ -34,7 +34,7 @@ fn get_minimum_window(original: String, check: String) -> String {
             if r-l < mr-ml { ml = l; mr = r;}
             //lexicographic ordering by ascending byte ordering
             else if r-l == mr-ml {
-                if og_bytes[l] < og_bytes[ml] {ml = l; mr = r;}
+                if og_bytes[l..r] < og_bytes[ml..mr] {ml = l; mr = r;}
             }
             
             if let Some(e) = freqs.get_mut(&og_bytes[l]) {
