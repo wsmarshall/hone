@@ -1,12 +1,5 @@
 use std::error;
 use std::io;
-
-use std::error;
-use std::io;
-use std::collections::HashMap;
-
-use std::error;
-use std::io;
 use std::collections::HashMap;
 
 fn get_minimum_window(original: String, check: String) -> String {
