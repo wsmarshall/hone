@@ -5,6 +5,10 @@ use std::error;
 use std::io;
 use std::collections::HashMap;
 
+use std::error;
+use std::io;
+use std::collections::HashMap;
+
 fn get_minimum_window(original: String, check: String) -> String {
     let og_bytes = original.as_bytes();
     
@@ -16,6 +20,40 @@ fn get_minimum_window(original: String, check: String) -> String {
     let mut missing = freqs.len() as i32;
     //left and right pointers which define our 'window'
     let (mut l, mut r) = (0, 0);
+    //the actual minimal window
+    let (mut ml, mut mr) = (0, original.len() + 1);
+    
+    loop
+    {
+        //if missing any chars from t, move right pointer
+        if r < og_bytes.len() && missing > 0 {
+            if let Some(e) = freqs.get_mut(&og_bytes[r]) {
+                *e -= 1;
+                if *e == 0 {missing -= 1;}
+            }
+            r += 1;
+        }
+        
+        //if have extra characters, move left pointer
+        else if l < og_bytes.len() && missing <= 0 {
+            //by this point, no missing characters
+            //so, update minimal window
+            if r-l < mr-ml { ml = l; mr = r;}
+            //lexicographic ordering by ascending byte ordering
+            else if r-l == mr-ml {
+                if og_bytes[l] < og_bytes[ml] {ml = l; mr = r;}
+            }
+            
+            if let Some(e) = freqs.get_mut(&og_bytes[l]) {
+                if *e == 0 {missing += 1; }
+                *e += 1;
+            }
+            l += 1;
+        }
+        else {break;}//r == len, l == len
+    }
+    
+    return if mr <= og_bytes.len() { original[ml..mr].to_string() } else {String::new() };
     
 }
 
