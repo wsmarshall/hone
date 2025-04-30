@@ -1,47 +1,34 @@
 fn dfs(
     n: i32,
+    ans: &mut Vec<String>,
     path: &mut String,
-    results: &mut Vec<String>,
     start_index: i32,
     open_count: i32,
-    close_count: i32,
+    closed_count: i32,
 ) {
     if start_index == 2 * n {
-        results.push(path.clone());
+        ans.push(path.clone());
+        return;
     }
 
     if open_count < n {
         path.push('(');
-        dfs(
-            n,
-            path,
-            results,
-            start_index + 1,
-            open_count + 1,
-            close_count,
-        );
+        dfs(n, ans, path, start_index + 1, open_count + 1, closed_count);
         path.pop();
     }
 
-    if close_count < open_count {
+    if closed_count < open_count {
         path.push(')');
-        dfs(
-            n,
-            path,
-            results,
-            start_index + 1,
-            open_count,
-            close_count + 1,
-        );
+        dfs(n, ans, path, start_index + 1, open_count, closed_count + 1);
         path.pop();
     }
 }
 
 fn generate_parentheses(n: i32) -> Vec<String> {
-    let mut results = Vec::<String>::new();
+    let mut ans: Vec<String> = vec![];
     let mut path = String::new();
 
-    dfs(n, &mut path, &mut results, 0, 0, 0);
+    dfs(n, &mut ans, &mut path, 0, 0, 0);
 
-    results
+    ans
 }
