@@ -1,12 +1,6 @@
-fn dfs(
-    chars: &Vec<char>,
-    candidates: &mut String,
-    answers: &mut Vec<String>,
-    start_index: usize,
-    used: &mut Vec<bool>,
-) {
-    if candidates.len() == chars.len() {
-        answers.push(candidates.clone());
+fn dfs(chars: &Vec<char>, ans: &mut Vec<String>, path: &mut String, used: &mut Vec<bool>) {
+    if path.len() == chars.len() {
+        ans.push(path.clone());
         return;
     }
 
@@ -14,22 +8,21 @@ fn dfs(
         if used[i] {
             continue;
         }
+        path.push(chars[i]);
         used[i] = true;
-        candidates.push(chars[i]);
-        dfs(chars, candidates, answers, start_index + 1, used);
+        dfs(chars, ans, path, used);
+        path.pop();
         used[i] = false;
-        candidates.pop();
     }
 }
 
 fn permutations(letters: String) -> Vec<String> {
-    let mut candidates = String::new();
-    let mut answers = Vec::<String>::new();
+    let mut ans: Vec<String> = vec![];
+    let mut path = String::new();
     let chars: Vec<char> = letters.chars().collect();
+    let mut used = vec![false; letters.len()];
 
-    let mut used: Vec<bool> = vec![false; chars.len()];
+    dfs(&chars, &mut ans, &mut path, &mut used);
 
-    dfs(&chars, &mut candidates, &mut answers, 0, &mut used);
-
-    answers
+    ans
 }
