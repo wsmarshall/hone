@@ -3,17 +3,16 @@ fn dfs(s: &str, words: &Vec<String>, start_index: usize) -> bool {
         return true;
     }
 
+    let mut ans = false;
     for i in words {
-        if !i.eq(&s[start_index..(start_index + i.len())]) {
-            continue;
+        if s[start_index..].starts_with(i) {
+            ans = ans || dfs(s, words, start_index + i.len());
         }
-
-        return dfs(s, words, start_index + i.len());
     }
 
-    false
+    ans
 }
 
 fn word_break(s: String, words: Vec<String>) -> bool {
-    dfs(&s, &words, 0) || false
+    dfs(&s, &words, 0)
 }
