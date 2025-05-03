@@ -15,7 +15,7 @@ fn dfs(coins: &Vec<i32>, amount: i32, sum: i32, memo: &mut Vec<i32>) -> i32 {
         if result == std::i32::MAX {
             continue;
         }
-        ans = std::cmp::min(result + 1, std::i32::MAX);
+        ans = std::cmp::min(result + 1, ans);
     }
     memo[sum as usize] = ans;
     ans
