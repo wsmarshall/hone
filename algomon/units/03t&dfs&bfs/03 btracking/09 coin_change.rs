@@ -19,8 +19,7 @@ fn dfs(coins: &Vec<i32>, amount: i32, sum: i32) -> i32 {
 }
 
 fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {
-    let mut result = -1;
-    result = dfs(&coins, amount, 0);
+    let result = dfs(&coins, amount, 0);
     if result == std::i32::MAX {
         return -1;
     }
