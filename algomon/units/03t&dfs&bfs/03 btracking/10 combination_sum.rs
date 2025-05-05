@@ -10,6 +10,7 @@ fn dfs(
         answers.push(path.clone());
         return;
     }
+    //unclear if this is even necessary
     if sum < target {
         for i in start_index..candidates.len() {
             if sum + candidates[i] > target {
