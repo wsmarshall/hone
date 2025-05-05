@@ -12,12 +12,12 @@ fn dfs(
     }
     if sum < target {
         for i in start_index..candidates.len() {
-            if sum + candidates[i] > sum {
+            if sum + candidates[i] > target {
                 break;
             }
             sum += candidates[i];
             path.push(candidates[i]);
-            dfs(candidates, answers, path, target, sum, start_index + 1);
+            dfs(candidates, answers, path, target, sum, i);
             path.pop();
             sum -= candidates[i];
         }
@@ -25,7 +25,7 @@ fn dfs(
 }
 
 fn combination_sum(mut candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
-    let mut answers: Vec<Vec<i32>> = vec![vec![]];
+    let mut answers: Vec<Vec<i32>> = vec![];
     let mut path: Vec<i32> = vec![];
 
     candidates.sort();
