@@ -1,4 +1,4 @@
-fn dfs(digits: &str, memo: &mut Vec<i32>, start_index: usize) -> i32 {
+fn dfs(digits: &String, memo: &mut Vec<i32>, start_index: usize) -> i32 {
     if start_index == digits.len() {
         return 1;
     }
@@ -7,12 +7,11 @@ fn dfs(digits: &str, memo: &mut Vec<i32>, start_index: usize) -> i32 {
         return memo[start_index];
     }
 
-    let mut ways = 0;
-
     if digits[start_index..start_index + 1].eq("0") {
-        return ways;
+        return 0;
     }
 
+    let mut ways = 0;
     ways += dfs(digits, memo, start_index + 1);
 
     if start_index + 2 <= digits.len()
@@ -20,8 +19,6 @@ fn dfs(digits: &str, memo: &mut Vec<i32>, start_index: usize) -> i32 {
     {
         ways += dfs(digits, memo, start_index + 2);
     }
-
-    memo[start_index] = ways;
 
     ways
 }
