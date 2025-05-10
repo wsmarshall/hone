@@ -1,3 +1,4 @@
+use std::collections::VecDeque;
 use std::error;
 use std::fmt::Display;
 use std::io;
@@ -12,30 +13,26 @@ struct Node<T> {
 }
 
 fn level_order_traversal(root: Tree<i32>) -> Vec<Vec<i32>> {
-    // with push_back and pop_front for queue implementation
+    let mut answer: Vec<Vec<i32>> = vec![];
     let mut queue = VecDeque::new();
     queue.push_back(root);
-    let mut level_list: Vec<Vec<i32>>::new();
-    
+
     while !queue.is_empty() {
-        let n = queue.len();
-        let mut next_level = Vec<i32>::new();
-        for i in 0..n {
-            let new_node = queue.pop_front();
-            next_level.push(new_node.val);
-            if new_node.left.is_some() {
-                queue.push_back(new_node.left);
-            }
-            if new_node.right.is_some() {
-                queue.push_back(new_node.right);
+        let mut level_list = vec![];
+        for i in 0..queue.len() {
+            if let Some(Some(current_node)) = queue.pop_front() {
+                level_list.push(current_node.val);
+
+                if current_node.left.is_some() {
+                    queue.push_back(current_node.left);
+                }
+
+                if current_node.right.is_some() {
+                    queue.push_back(current_node.right);
+                }
             }
         }
-        level_list.push(next_level);
+        answer.push(level_list);
     }
-
-
-    level_list
-
-
-
+    answer
 }
