@@ -6,22 +6,25 @@ use std::str::FromStr;
 
 fn shortest_path(graph: Vec<Vec<i32>>, a: i32, b: i32) -> i32 {
     let mut queue = VecDeque::new();
-    queue.push_back(graph[a as usize]);
+    queue.push_back(a);
     let mut visited = HashSet::new();
 
     let mut distance = 0;
 
     while !queue.is_empty() {
-        if let Some(current) = queue.pop_front() {
-            for i in 0..current.len() {
-                if visited.insert(current) {
-                    queue.push_back(graph[i]);
+        if let Some(num) = queue.pop_front() {
+            let current_node_neighbors = &graph[num as usize];
+            for i in 0..current_node_neighbors.len() {
+                if visited.insert(current_node_neighbors[i]) {
+                    queue.push_back(current_node_neighbors[i]);
+                } else if current_node_neighbors[i] == b {
+                    return distance;
                 } else {
                     continue;
                 }
             }
+            distance += 1;
         }
     }
-
     distance
 }
