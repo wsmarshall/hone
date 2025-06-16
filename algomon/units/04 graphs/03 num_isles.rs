@@ -24,15 +24,15 @@ fn get_neighbors(coord: Coordinate, grid: &Vec<Vec<i32>>) -> Vec<Coordinate> {
     let deltaRow = [-1, 0, 1, 0];
     let deltaCol = [0, 1, 0, -1];
     for i in 0..deltaRow.len() {
-        let neighborRow = coord.r + deltaRow[i];
-        let neighborCol = coord.c + deltaCol[i];
+        let neighborRow = coord.r as i32 + deltaRow[i];
+        let neighborCol = coord.c as i32 + deltaCol[i];
         if 0 <= neighborRow
-            && neighborRow < image.len().try_into().unwrap()
+            && neighborRow < grid.len().try_into().unwrap()
             && 0 <= neighborCol
-            && neighborCol < image[0].len().try_into().unwrap()
+            && neighborCol < grid[0].len().try_into().unwrap()
         {
             if grid[neighborRow as usize][neighborCol as usize] == 1 {
-                neighbors.push(build_Coordinate(neighborRow, neighborCol));
+                neighbors.push(build_Coordinate(neighborRow, neighborCol, 1));
             }
         }
     }
@@ -49,8 +49,9 @@ fn bfs(grid: &Vec<Vec<i32>>) -> i32 {
     let width = grid[0].len(); //since it's a 2D matrix
     for i in 0..height {
         for j in 0..width {
-            let current = build_coordinate(i, j, grid[i][j]);
-            if visited.insert(current) {
+            let current =
+                build_Coordinate(i.try_into().unwrap(), j.try_into().unwrap(), grid[i][j]);
+            if visited.insert(current.clone()) {
                 if current.val == 1 {
                     islands += 1;
                     queue.push_back(current.clone());
