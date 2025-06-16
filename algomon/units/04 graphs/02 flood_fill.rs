@@ -5,7 +5,7 @@ use std::fmt::Display;
 use std::io;
 use std::str::FromStr; //for Visited
 
-#[derive(Eq, Hash, PartialEq)]
+#[derive(Clone, Eq, Hash, PartialEq)]
 struct Coordinate {
     r: usize,
     c: usize,
@@ -41,7 +41,7 @@ fn get_neighbors(r: i32, c: i32, color: i32, image: &Vec<Vec<i32>>) -> Vec<Coord
 
 fn bfs(image: &mut Vec<Vec<i32>>, point: Coordinate, new_color: i32) {
     let mut queue = VecDeque::new();
-    queue.push_back(point);
+    queue.push_back(point.clone());
     let mut visited: HashSet<Coordinate> = HashSet::new();
     let og_color: i32 = image[point.r][point.c];
     image[point.r][point.c] = new_color;
@@ -50,13 +50,13 @@ fn bfs(image: &mut Vec<Vec<i32>>, point: Coordinate, new_color: i32) {
     while !queue.is_empty() {
         if let Some(coord) = queue.pop_front() {
             let neighbors: Vec<Coordinate> = get_neighbors(
-                point.r.try_into().unwrap(),
-                point.c.try_into().unwrap(),
+                coord.r.try_into().unwrap(),
+                coord.c.try_into().unwrap(),
                 og_color,
                 &image,
             );
             for n in neighbors {
-                if visited.insert(n) {
+                if visited.insert(n.clone()) {
                     image[n.r][n.c] = new_color;
                     queue.push_back(n);
                 }
