@@ -8,15 +8,10 @@ use std::str::FromStr;
 struct Coordinate {
     r: usize,
     c: usize,
-    val: i32,
 }
 
 fn build_Coordinate(r: i32, c: i32, val: i32) -> Coordinate {
-    Coordinate {
-        r: r,
-        c: c,
-        val: val,
-    }
+    Coordinate { r: r, c: c }
 }
 
 fn get_neighbors(coord: Coordinate, grid: &Vec<Vec<i32>>) -> Vec<Coordinate> {
@@ -40,7 +35,8 @@ fn get_neighbors(coord: Coordinate, grid: &Vec<Vec<i32>>) -> Vec<Coordinate> {
     neighbors
 }
 
+fn bfs(x: i32, y: i32) -> i32 {}
+
 fn get_knight_shortest_path(x: i32, y: i32) -> i32 {
-    // WRITE YOUR BRILLIANT CODE HERE
-    0
+    bfs(x, y)
 }
