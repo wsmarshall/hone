@@ -5,11 +5,11 @@ use std::io;
 
 #[derive(Clone, Eq, Hash, PartialEq)]
 struct Combination {
-    digits: [i32; 4],
+    digits: Vec<i32>,
     steps: i32,
 }
 
-fn build_Combination(digits: [i32; 4], steps: i32) -> Combination {
+fn build_Combination(digits: Vec<i32>, steps: i32) -> Combination {
     Combination {
         digits: digits.clone(),
         steps: steps,
@@ -43,6 +43,16 @@ fn get_neighbors(comb: &Combination, grid: &Vec<Vec<i32>>) -> Vec<Combination> {
 
 fn num_steps(target_combo: String, trapped_combos: Vec<String>) -> i32 {
     // use bfs
-    let mut visited = HashSet::new();
-    let mut queue = VecDeque::new();
+    let mut visited: HashSet<Combination> = HashSet::new();
+    let mut queue: VecDeque<Combination> = VecDeque::new();
+
+    let mut target: Vec<&str> = target_combo.split("").collect();
+    target.remove(0);
+    target.pop();
+    let target = target
+        .into_iter()
+        .map(|c| c.parse::<i32>().unwrap())
+        .collect::<Vec<i32>>();
+
+    0
 }
