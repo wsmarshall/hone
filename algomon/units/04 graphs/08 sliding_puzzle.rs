@@ -72,6 +72,24 @@ fn get_neighbors(state: &State) -> Vec<State> {
 }
 
 fn num_steps(init_pos: Vec<Vec<i32>>) -> i32 {
-    // WRITE YOUR BRILLIANT CODE HERE
-    0
+    let end_state = vec![vec![1, 2, 3], vec![4, 5, 0]];
+    let mut queue: VecDeque<State> = VecDeque::new();
+    let mut visited: HashSet<Vec<Vec<i32>>> = HashSet::new();
+
+    queue.push_back(build_State(init_pos, 0));
+
+    while !queue.is_empty() {
+        if let Some(state) = queue.pop_front() {
+            if visited.insert(state.tiles.clone()) {
+                if state.tiles == end_state {
+                    return state.steps;
+                }
+                let neighbors = get_neighbors(&state);
+                for i in neighbors {
+                    queue.push_back(i);
+                }
+            }
+        }
+    }
+    -1
 }
