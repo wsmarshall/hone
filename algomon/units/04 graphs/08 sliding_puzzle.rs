@@ -1,8 +1,6 @@
 use std::collections::HashSet;
 use std::collections::VecDeque;
 use std::error;
-use std::error;
-use std::io;
 use std::io;
 use std::str::FromStr;
 
@@ -21,7 +19,7 @@ fn build_State(tiles: Vec<Vec<i32>>, steps: i32) -> State {
 
 //takes in a puzzle tile state, gives back a vec of states which
 //are one tile move away
-fn get_neighbors(state: &State) -> Vec<Vec<State>> {
+fn get_neighbors(state: &State) -> Vec<State> {
     let mut neighbors: Vec<State> = vec![];
     let mut zero_row: usize = 0;
     let mut zero_col: usize = 0;
