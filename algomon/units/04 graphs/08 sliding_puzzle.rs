@@ -7,36 +7,69 @@ use std::io;
 use std::str::FromStr;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
-struct Word {
-    chars: Vec<char>,
+struct State {
+    tiles: Vec<Vec<i32>>,
     steps: i32,
 }
 
-fn build_Word(chars: Vec<char>, steps: i32) -> Word {
-    Word {
-        chars: chars.clone(),
+fn build_State(tiles: Vec<Vec<i32>>, steps: i32) -> State {
+    State {
+        tiles: tiles.clone(),
         steps: steps,
     }
 }
 
-//takes in a word, gives back a list of words from the dictionary
-//that are one character away
-fn get_neighbors(word: &Word, dict: &Vec<String>) -> Vec<Word> {
-    let mut neighbors: Vec<Word> = vec![];
+//takes in a puzzle tile state, gives back a vec of states which
+//are one tile move away
+fn get_neighbors(state: &State) -> Vec<Vec<State>> {
+    let mut neighbors: Vec<State> = vec![];
+    let mut zero_row: usize = 0;
+    let mut zero_col: usize = 0;
 
-    let chars = word.chars.clone(); //clone?
-    for i in dict {
-        let mut diffs = 0;
-        let temp: Vec<char> = i.chars().collect();
-        for j in 0..temp.len() {
-            if temp[j] != chars[j] {
-                diffs += 1;
+    //finds the row and col of the zero
+    for i in 0..2 {
+        for j in 0..3 {
+            if state.tiles[i][j] == 0 {
+                zero_row = i;
+                zero_col = j;
             }
         }
-        if diffs == 1 {
-            neighbors.push(build_Word(i.chars().collect(), word.steps + 1));
-        }
     }
+
+    //swap left
+    if zero_col == 1 || zero_col == 2 {
+        let mut new_state = state.tiles.clone();
+        let temp = new_state[zero_row][zero_col - 1];
+        new_state[zero_row][zero_col - 1] = 0;
+        new_state[zero_row][zero_col] = temp;
+        neighbors.push(build_State(new_state, state.steps + 1));
+    }
+
+    //swap right
+    if zero_col == 0 || zero_col == 1 {
+        let mut new_state = state.tiles.clone();
+        let temp = new_state[zero_row][zero_col + 1];
+        new_state[zero_row][zero_col + 1] = 0;
+        new_state[zero_row][zero_col] = temp;
+        neighbors.push(build_State(new_state, state.steps + 1));
+    }
+
+    //swap up/down
+    if zero_row == 0 {
+        let mut new_state = state.tiles.clone();
+        let temp = new_state[zero_row + 1][zero_col];
+        new_state[zero_row + 1][zero_col] = 0;
+        new_state[zero_row][zero_col] = temp;
+        neighbors.push(build_State(new_state, state.steps + 1));
+    } else {
+        //zero_row is 1
+        let mut new_state = state.tiles.clone();
+        let temp = new_state[zero_row - 1][zero_col];
+        new_state[zero_row - 1][zero_col] = 0;
+        new_state[zero_row][zero_col] = temp;
+        neighbors.push(build_State(new_state, state.steps + 1));
+    }
+
     neighbors
 }
 
