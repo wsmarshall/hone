@@ -36,8 +36,17 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
             recon.push(num);
 
             //decrement neighbors num points to
+            let neighbors = map.get(&num);
+            for i in neighbors {
+                *indegrees.entry(i).or_insert(0) -= 1;
+            }
 
             //find any now 0 nodes and add them to queue
+            for i in indegrees {
+                if *indegrees.entry(i) == 0 {
+                    queue.push(i);
+                }
+            }
         }
     }
 
