@@ -5,7 +5,7 @@ use std::error;
 use std::io;
 use std::str::FromStr;
 
-fn assess_indegrees(graph: &mut HashMap<i32, i32>, map: &HashMap<i32, HashSet<i32>>) {
+fn assess_indegrees(graph: &mut HashMap<i32, i32>, map: &HashMap<String, i32>) {
     //     println!("map: {:?}", map);
     for (k, v) in map {
         *graph.entry(*k).or_insert(0);
@@ -15,12 +15,12 @@ fn assess_indegrees(graph: &mut HashMap<i32, i32>, map: &HashMap<i32, HashSet<i3
     }
 }
 
-fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSet<i32>>) -> bool {
+fn topo_sort(requirements: &Vec<Vec<String>>, map: HashMap<String, i32>) -> i32 {
     let mut queue: VecDeque<i32> = VecDeque::new();
     let mut indegrees: HashMap<i32, i32> = HashMap::new();
     let mut recon = vec![];
 
-    assess_indegrees(&mut indegrees, &map);
+    assess_indegrees(&mut indegrees, &requirements);
 
     for i in &indegrees {
         if *i.1 == 0 {
@@ -65,6 +65,10 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
 }
 
 fn task_scheduling_2(tasks: Vec<String>, times: Vec<i32>, requirements: Vec<Vec<String>>) -> i32 {
-    // WRITE YOUR BRILLIANT CODE HERE
-    0
+    let map:<String, i32> = HashMap::new();
+    for i in 0..tasks.len() {
+        *map.entry(tasks[i]).or_insert(0) = times[i];
+    }
+    
+    topo_sort(&requirements, map)
 }
