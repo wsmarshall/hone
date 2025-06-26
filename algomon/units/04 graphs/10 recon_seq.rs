@@ -27,6 +27,8 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
         }
     }
 
+    // println!("indegrees: {:?}", indegrees);
+
     while !queue.is_empty() {
         if queue.len() > 1 {
             return false; //no unique reconstruction
@@ -34,17 +36,25 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
         if let Some(num) = queue.pop_front() {
             //add num to the reconstruction
             recon.push(num);
-
+            // println!("recon: {:?}", recon);
+            // println!("map: {:?}", map);
             //access HashSet, decrement neighbors num points to
-            let neighbors = map.get(&num).unwrap();
-            for i in neighbors.iter() {
-                *indegrees.entry(*i).or_insert(0) -= 1;
-            }
+            if map.contains_key(&num) {
+                let neighbors = map.get(&num).unwrap();
+                // println!("neighbors: {:?}", neighbors);
+                for i in neighbors.iter() {
+                    *indegrees.entry(*i).or_insert(0) -= 1;
+                }
 
-            //find any now 0 nodes and add them to queue
-            for i in &indegrees {
-                if *i.1 == 0 {
-                    queue.push_back(*i.0);
+                //find any now 0 nodes and add them to queue
+                // println!("indegrees: {:?}", indegrees);
+                for i in &indegrees {
+                    if *i.1 == 0 {
+                        if !recon.contains(i.0) {
+                            // println!("new 0 entry: {:?}", i.0);
+                            queue.push_back(*i.0);
+                        }
+                    }
                 }
             }
         }
@@ -61,6 +71,6 @@ fn sequence_reconstruction(original: Vec<i32>, seqs: Vec<Vec<i32>>) -> bool {
             (*map.entry(first).or_insert(HashSet::new())).insert(i[j]);
         }
     }
-
+    // println!("original: {:?}, seqs: {:?}, map: {:?}", original, seqs, map);
     topo_sort(&original, &seqs, map)
 }
