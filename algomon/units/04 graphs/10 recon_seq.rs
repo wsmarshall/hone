@@ -22,13 +22,13 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
     assess_indegrees(&mut indegrees, &seqs);
 
     for i in indegrees {
-        if indegrees.get(&i) == &0 {
-            queue.push_back(i);
+        if i.1 == 0 {
+            queue.push_back(i.0);
         }
     }
 
     while !queue.is_empty() {
-        if queue.size() > 1 {
+        if queue.len() > 1 {
             return false; //no unique reconstruction
         }
         if let Some(num) = queue.pop_front() {
@@ -36,21 +36,21 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
             recon.push(num);
 
             //decrement neighbors num points to
-            let neighbors = map.get(&num);
-            for i in neighbors {
-                *indegrees.entry(i).or_insert(0) -= 1;
+            let neighbors = *map.get(&num).unwrap();
+            for i in neighbors.iter() {
+                *indegrees.entry(*i) -= 1;
             }
 
             //find any now 0 nodes and add them to queue
             for i in indegrees {
-                if *indegrees.entry(i) == 0 {
-                    queue.push(i);
+                if i.1 == 0 {
+                    queue.push_back(i.0);
                 }
             }
         }
     }
 
-    original == recon
+    *original == recon
 }
 
 fn sequence_reconstruction(original: Vec<i32>, seqs: Vec<Vec<i32>>) -> bool {
@@ -58,7 +58,7 @@ fn sequence_reconstruction(original: Vec<i32>, seqs: Vec<Vec<i32>>) -> bool {
     for i in seqs {
         let first = i[0];
         for j in 1..i.len() {
-            *map.entry(first).or_insert().insert(i[j]);
+            (*map.entry(first).or_insert(HashSet::new())).insert(i[j]);
         }
     }
 
