@@ -21,9 +21,9 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
 
     assess_indegrees(&mut indegrees, &seqs);
 
-    for i in indegrees {
-        if i.1 == 0 {
-            queue.push_back(i.0);
+    for i in &indegrees {
+        if *i.1 == 0 {
+            queue.push_back(*i.0);
         }
     }
 
@@ -35,16 +35,16 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
             //add num to the reconstruction
             recon.push(num);
 
-            //decrement neighbors num points to
-            let neighbors = *map.get(&num).unwrap();
+            //access HashSet, decrement neighbors num points to
+            let neighbors = map.get(&num).unwrap();
             for i in neighbors.iter() {
-                *indegrees.entry(*i) -= 1;
+                *indegrees.entry(*i).or_insert(0) -= 1;
             }
 
             //find any now 0 nodes and add them to queue
-            for i in indegrees {
-                if i.1 == 0 {
-                    queue.push_back(i.0);
+            for i in &indegrees {
+                if *i.1 == 0 {
+                    queue.push_back(*i.0);
                 }
             }
         }
@@ -55,7 +55,7 @@ fn topo_sort(original: &Vec<i32>, seqs: &Vec<Vec<i32>>, map: HashMap<i32, HashSe
 
 fn sequence_reconstruction(original: Vec<i32>, seqs: Vec<Vec<i32>>) -> bool {
     let mut map: HashMap<i32, HashSet<i32>> = HashMap::new();
-    for i in seqs {
+    for i in &seqs {
         let first = i[0];
         for j in 1..i.len() {
             (*map.entry(first).or_insert(HashSet::new())).insert(i[j]);
