@@ -5,6 +5,8 @@ use std::error;
 use std::io;
 use std::str::FromStr;
 
+//nb 101 vs 102 test fails on AM (THEY'RE WRONG!)
+
 fn assess_indegrees<'a>(reqs: &'a Vec<Vec<String>>, map: &mut HashMap<&'a String, i32>) {
     for i in reqs {
         *map.entry(&i[0]).or_insert(0);
@@ -17,7 +19,7 @@ fn assess_indegrees<'a>(reqs: &'a Vec<Vec<String>>, map: &mut HashMap<&'a String
 fn topo_sort(
     requirements: &Vec<Vec<String>>,
     map: HashMap<&String, i32>,
-    edge_map: HashMap<&String, &String>,
+    edge_map: HashMap<&String, HashSet<&String>>,
 ) -> i32 {
     let mut queue: VecDeque<&String> = VecDeque::new();
     let mut indegrees: HashMap<&String, i32> = HashMap::new();
@@ -25,12 +27,15 @@ fn topo_sort(
     let mut visited: HashSet<&String> = HashSet::new();
 
     assess_indegrees(&requirements, &mut indegrees);
+    // println!("indegrees: {:?}", indegrees);
 
     for i in &indegrees {
         if *i.1 == 0 {
             queue.push_back(*i.0);
         }
     }
+    // println!("line 32 queue: {:?}", queue);
+
     let mut max_time = 0;
     for i in &queue {
         visited.insert(i);
@@ -41,6 +46,7 @@ fn topo_sort(
     }
 
     total_time += max_time;
+    // println!("44 visited: {:?}, total time: {}", visited, total_time);
 
     //     println!("indegrees: {:?}", indegrees);
 
@@ -50,13 +56,14 @@ fn topo_sort(
             //             println!("map: {:?}", map);
             //access indegrees, decrement
             if edge_map.contains_key(&entry) {
-                let neighbor = edge_map.get(&entry).unwrap();
-                indegrees.insert(neighbor, indegrees.get(neighbor).unwrap() - 1);
-
+                let neighbors = edge_map.get(&entry).unwrap();
+                for i in neighbors {
+                    *indegrees.entry(i).or_insert(0) -= 1;
+                }
                 //find any now 0 nodes and add them to queue
                 //                 println!("indegrees: {:?}", indegrees);
                 for i in &indegrees {
-                    if *i.1 == 0 {
+                    if *i.1 == 0 && !visited.contains(i.0) {
                         queue.push_back(*i.0);
                     }
                 }
@@ -83,12 +90,16 @@ fn task_scheduling_2(tasks: Vec<String>, times: Vec<i32>, requirements: Vec<Vec<
         *map.entry(&tasks[i]).or_insert(0) = times[i];
     }
 
-    let mut edge_map: HashMap<&String, &String> = HashMap::new();
+    let mut edge_map: HashMap<&String, HashSet<&String>> = HashMap::new();
     for i in &requirements {
         for j in 0..i.len() - 1 {
-            edge_map.insert(&i[j], &i[j + 1]);
+            // println!("first: {:?}, second: {:?}", &i[j], &i[j+1]);
+            (*edge_map.entry(&i[j]).or_insert(HashSet::new())).insert(&i[j + 1]);
         }
     }
+    // println!("requirements: {:?}", requirements);
+    // println!("map: {:?}", map);
+    //     println!("edge_map: {:?}", edge_map);
 
     topo_sort(&requirements, map, edge_map)
 }
