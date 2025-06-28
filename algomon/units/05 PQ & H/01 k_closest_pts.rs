@@ -9,7 +9,7 @@ use std::str::FromStr;
 fn distance(point: &Vec<i32>) -> i32 {
     let x = point[0];
     let y = point[1];
-    let dist = ((x * x + y * y) as f64).sqrt() as i32;
+    let dist: i32 = (x * x + y * y);
 
     dist
 }
