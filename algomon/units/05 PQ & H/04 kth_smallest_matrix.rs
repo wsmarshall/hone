@@ -36,6 +36,30 @@ impl Ord for Item {
 }
 
 fn kth_smallest(matrix: Vec<Vec<i32>>, k: i32) -> i32 {
-    // WRITE YOUR BRILLIANT CODE HERE
+    let mut count = 1;
+    let mut heap: BinaryHeap<Item> = BinaryHeap::new();
+
+    for i in 0..matrix.len() {
+        heap.push(build_Item(matrix[i][0], i, 0, matrix[i].len()));
+    }
+
+    while count < k {
+        if let Some(current) = heap.pop() {
+            if current.col < current.row_len - 1 {
+                let next = current.col + 1;
+                heap.push(build_Item(
+                    matrix[current.row][next],
+                    current.row,
+                    next,
+                    current.row_len,
+                ));
+            }
+        }
+        count += 1;
+    }
+
+    if let Some(last) = heap.pop() {
+        return last.val;
+    }
     0
 }
