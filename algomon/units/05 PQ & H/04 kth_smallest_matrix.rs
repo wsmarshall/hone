@@ -7,17 +7,17 @@ use std::str::FromStr;
 #[derive(Debug, Eq, PartialEq)]
 struct Item {
     val: i32,
-    list: usize,
-    list_len: usize,
-    list_index: usize,
+    row: usize,
+    col: usize,
+    row_len: usize,
 }
 
-fn build_Item(value: i32, list: usize, list_len: usize, list_index: usize) -> Item {
+fn build_Item(value: i32, row: usize, col: usize, row_len: usize) -> Item {
     Item {
         val: value,
-        list: list,
-        list_len: list_len,
-        list_index: list_index,
+        row: row,
+        col: col,
+        row_len: row_len,
     }
 }
 
