@@ -1,17 +1,22 @@
 use std::error;
 use std::io;
 
+//"1D array approach"
 fn unique_paths(m: i32, n: i32) -> i32 {
-    let mut grid: Vec<Vec<i32>> = vec![vec![1; n as usize]; m as usize];
-
     let r = m as usize; //row
-    let c = n as usize; //column
+    let c = n as usize; //col
+
+    let mut current_row: Vec<i32> = vec![1; c];
+    let mut prev_row: Vec<i32> = vec![1; c];
 
     for i in 1..r {
         for j in 1..c {
-            grid[i][j] = grid[i - 1][j] + grid[i][j - 1];
+            current_row[j] = current_row[j - 1] + prev_row[j];
         }
+        let temp = current_row;
+        current_row = prev_row;
+        prev_row = temp;
     }
 
-    grid[r - 1][c - 1]
+    prev_row[c - 1]
 }
