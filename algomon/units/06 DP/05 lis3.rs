@@ -2,8 +2,6 @@ use std::error;
 use std::io;
 use std::str::FromStr;
 
-//for "hyperoptimized" approach (n log n vs n^2)
-
 fn bs(nums: &Vec<i32>) -> usize {
     let mut left = 0;
     let mut right = nums.len();
