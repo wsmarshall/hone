@@ -21,4 +21,12 @@ fn min_path_sum(grid: Vec<Vec<i32>>) -> i32 {
         sum += grid[i][0];
         dp[i][0] = sum;
     }
+
+    for i in 1..m {
+        for j in 1..n {
+            dp[i][j] = cmp::min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+        }
+    }
+
+    dp[m - 1][n - 1]
 }
