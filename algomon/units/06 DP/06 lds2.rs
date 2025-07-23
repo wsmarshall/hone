@@ -3,8 +3,7 @@ use std::error;
 use std::io;
 use std::str::FromStr;
 
-fn find_largest_subset(nums: Vec<i32>) -> i32 {
-    let mut nums: Vec<i32> = nums.clone();
+fn find_largest_subset(mut nums: Vec<i32>) -> i32 {
     nums.sort();
     let n = nums.len();
     let mut dp = vec![0; n + 1];
