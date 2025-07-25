@@ -12,8 +12,12 @@ fn f(l: usize, r: usize, dp: &mut Vec<Vec<i64>>, target: &Vec<i32>) -> i64 {
         return dp[l][r];
     }
 
-    for i in 1..=r {
-        let left_interval: i64 = f(l, i - 1, dp, target);
+    for i in l..=r {
+        let leftmost = match i {
+            0 => 0,
+            _ => i - 1,
+        };
+        let left_interval: i64 = f(l, leftmost, dp, target);
         let right_interval: i64 = f(i + 1, r, dp, target);
 
         let left_mult: i64 = match l {
