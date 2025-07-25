@@ -25,10 +25,11 @@ fn f(l: usize, r: usize, dp: &mut Vec<Vec<i64>>, target: &Vec<i32>) -> i64 {
             _ => target[l - 1].into(),
         };
 
-        let rightmost = target.len() - 1;
-        let right_mult: i64 = match r {
-            rightmost => 1,
-            _ => target[r + 1].into(),
+        let right_mult;
+        if r == target.len() - 1 {
+            right_mult = 1;
+        } else {
+            right_mult = target[r + 1].into()
         };
 
         let val: i64 = left_mult * i64::from(target[i]) * right_mult;
@@ -37,4 +38,11 @@ fn f(l: usize, r: usize, dp: &mut Vec<Vec<i64>>, target: &Vec<i32>) -> i64 {
     }
 
     dp[l][r]
+}
+
+fn festival_game(target: Vec<i32>) -> i64 {
+    let n: usize = target.len();
+    let mut dp: Vec<Vec<i64>> = vec![vec![0; n]; n];
+
+    f(0, n - 1, &mut dp, &target)
 }
