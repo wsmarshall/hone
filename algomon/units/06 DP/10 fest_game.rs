@@ -13,7 +13,7 @@ fn f(l: i32, r: i32, dp: &mut Vec<Vec<i64>>, target: &Vec<i32>) -> i64 {
     }
 
     for i in l as usize..=r as usize {
-        let left_interval: i64 = f(l, l - 1, dp, target);
+        let left_interval: i64 = f(l, (i as i32) - 1, dp, target);
         let right_interval: i64 = f((i + 1).try_into().unwrap(), r, dp, target);
 
         let left_mult: i64 = match l {
