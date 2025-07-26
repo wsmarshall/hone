@@ -25,7 +25,7 @@ fn f(l: usize, r: usize, dp: &mut Vec<Vec<i64>>, target: &Vec<i32>) -> i64 {
             _ => target[l - 1].into(),
         };
 
-        let right_mult;
+        let right_mult: i64;
         if r == target.len() - 1 {
             right_mult = 1;
         } else {
@@ -43,6 +43,8 @@ fn f(l: usize, r: usize, dp: &mut Vec<Vec<i64>>, target: &Vec<i32>) -> i64 {
 fn festival_game(target: Vec<i32>) -> i64 {
     let n: usize = target.len();
     let mut dp: Vec<Vec<i64>> = vec![vec![0; n]; n];
+    let current: i64 = target[0].into();
+    dp[0][0] = cmp::max(dp[0][0], current * i64::from(target[1]));
 
     f(0, n - 1, &mut dp, &target)
 }
