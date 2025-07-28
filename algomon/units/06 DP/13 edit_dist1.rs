@@ -2,23 +2,8 @@ use std::cmp;
 use std::error;
 use std::io;
 
-fn lcs(word1: &Vec<char>, word2: &Vec<char>, dp: &mut Vec<Vec<i32>>) -> i32 {
-    let m = word1.len();
-    let n = word2.len();
-
-    for i in 0..=m {
-        for j in 0..=n {
-            if i == 0 || j == 0 {
-                dp[i][j] = 0;
-            } else if word1[i - 1] == word2[j - 1] {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = cmp::max(dp[i - 1][j], dp[i][j - 1]);
-            }
-        }
-    }
-
-    dp[m][n]
+fn min(a: i32, b: i32, c: i32) -> i32 {
+    cmp::min(a, cmp::min(b, c))
 }
 
 fn min_distance(word1: String, word2: String) -> i32 {
