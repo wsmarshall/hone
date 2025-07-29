@@ -9,25 +9,22 @@ fn can_partition(nums: Vec<i32>) -> bool {
     } else {
         let target = total / 2;
         let n: usize = nums.len();
-        let mut dp =
-            vec![vec![false; <i32 as TryInto<usize>>::try_into(target).unwrap() + 1]; n + 1];
-        //return target_exists(&nums, target.try_into().unwrap(), 0, n, &mut dp);
-        dp[0][0] = true;
-
-        for i in 0..=n {
-            dp[i][0] = true;
-        }
+        let mut previous = vec![false; <i32 as TryInto<usize>>::try_into(target).unwrap() + 1];
+        previous[0] = true;
+        let mut current = previous.clone();
 
         for i in 1..=n {
             for j in 1..=target as usize {
                 if (j as i32) < nums[i - 1] {
-                    dp[i][j] = dp[i - 1][j];
+                    current[j] = previous[j];
                 } else {
-                    dp[i][j] = dp[i - 1][j]
-                        || dp[i - 1][j - <i32 as TryInto<usize>>::try_into(nums[i - 1]).unwrap()];
+                    current[j] = previous[j]
+                        || previous[j - <i32 as TryInto<usize>>::try_into(nums[i - 1]).unwrap()];
                 }
             }
+            // println!("previous: {:?}", previous);
+            previous = current.clone();
         }
-        return dp[n][target as usize];
+        return previous[target as usize];
     }
 }
