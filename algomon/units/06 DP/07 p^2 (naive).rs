@@ -1,6 +1,8 @@
 use std::error;
 use std::io;
 
+//this attempts greeDY -- flawed but close to serviceable
+
 fn perfect_squares(n: i32) -> i32 {
     let mut total: usize = n.try_into().unwrap();
     let mut count: i32 = 0;
