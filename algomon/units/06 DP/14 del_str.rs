@@ -18,8 +18,8 @@ fn delete_string(costs: Vec<i32>, s1: String, s2: String) -> i32 {
         table[0][i] = table[0][i - 1] + costs[(str2[i - 1] as u32 - 'a' as u32) as usize];
     }
 
-    for i in 2..=m {
-        for j in 2..=n {
+    for i in 1..=m {
+        for j in 1..=n {
             if str1[i - 1] == str2[j - 1] {
                 table[i][j] = table[i - 1][j - 1];
             } else {
