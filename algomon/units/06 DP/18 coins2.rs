@@ -11,7 +11,7 @@ fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {
     let amt: usize = <i32 as TryInto<usize>>::try_into(amount).unwrap();
     let mut memo: Vec<i32> = vec![i32::MAX - 10; amt + 1];
     memo[0] = 0;
-    for i in 1..=memo.len() {
+    for i in 1..=amt {
         for j in 0..coins.len() {
             if coins[j] <= i.try_into().unwrap() {
                 memo[i] = cmp::min(
@@ -21,5 +21,9 @@ fn coin_change(coins: Vec<i32>, amount: i32) -> i32 {
             }
         }
     }
+    if memo[amt] == i32::MAX - 10 {
+        return -1;
+    }
+
     memo[amt]
 }
