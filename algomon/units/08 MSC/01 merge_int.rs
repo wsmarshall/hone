@@ -10,7 +10,6 @@ fn overlap(a: &Vec<i32>, b: &Vec<i32>) -> bool {
 
 fn merge_intervals(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     intervals.sort();
-    intervals.reverse();
 
     let mut answers: Vec<Vec<i32>> = vec![];
 
