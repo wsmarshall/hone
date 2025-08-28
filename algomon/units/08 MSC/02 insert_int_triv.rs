@@ -1,3 +1,4 @@
+use std::cmp;
 use std::error;
 use std::fmt::Display;
 use std::io;
@@ -5,21 +6,20 @@ use std::str::FromStr;
 
 fn insert_interval(mut intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {
     intervals.push(new_interval);
-    intervals.sort();
-    intervals.reverse();
+    intervals.sort_by_key(|interval| interval[0]);
 
-    let mut answers = vec![];
-    answers.push(intervals.pop().unwrap());
-    while intervals.len() > 0 {
-        let next = intervals.pop().unwrap();
-        let prev = &answers[answers.len() - 1];
-        if next[0] <= prev[1] {
-            let new_interval = vec![prev[0], next[1]];
-            answers.pop();
-            answers.push(new_interval);
+    let mut answers = Vec::with_capacity(intervals.len() + 1);
+    let mut current = vec![intervals[0][0], intervals[0][1]];
+
+    for i in intervals.into_iter().skip(1) {
+        if current[1] >= i[0] {
+            current[1] = cmp::max(current[1], i[1]);
         } else {
-            answers.push(next);
+            answers.push(current);
+            current = i;
         }
     }
+
+    answers.push(current);
     answers
 }
