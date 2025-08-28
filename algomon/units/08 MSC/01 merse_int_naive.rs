@@ -3,6 +3,8 @@ use std::fmt::Display;
 use std::io;
 use std::str::FromStr;
 
+//doesn't work properly on all tests -- TODO (fix?)
+
 fn merge_intervals(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     intervals.sort();
     intervals.reverse();
