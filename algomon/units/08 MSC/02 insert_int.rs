@@ -6,12 +6,7 @@ use std::str::FromStr;
 
 fn insert_interval(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<i32>> {
     let mut answer: Vec<Vec<i32>> = vec![];
-    let mut new_used: bool;
-    if intervals.len() <= 1 {
-        new_used = true;
-    } else {
-        new_used = false;
-    }
+    let mut new_used = false;
     let mut new_pot = new_interval.clone();
 
     for i in intervals {
@@ -30,6 +25,10 @@ fn insert_interval(intervals: Vec<Vec<i32>>, new_interval: Vec<i32>) -> Vec<Vec<
         } else {
             answer.push(i);
         }
+    }
+
+    if !new_used {
+        answer.push(new_pot);
     }
 
     answer
