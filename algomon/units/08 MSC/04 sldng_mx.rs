@@ -11,13 +11,18 @@ fn sliding_window_maximum(nums: Vec<i32>, k: i32) -> Vec<i32> {
     let mut track: VecDeque<(usize, i32)> = VecDeque::new();
 
     for (i, el) in nums.iter().enumerate() {
-        while !track.is_empty() && track.back() <= el {
+        while !track.is_empty() && track.back().unwrap().1 <= *el {
             track.pop_back();
         }
-        track.push_back((i, el));
+        track.push_back((i, *el));
+        if i as i32 - k >= 0 {
+            if track.front().unwrap().0 == i - k as usize {
+                track.pop_front();
+            }
+        }
 
-        if track.front() == i - k {
-            track.pop_front();
+        if i >= (k - 1).try_into().unwrap() {
+            maxes.push(track.front().unwrap().1);
         }
     }
 
