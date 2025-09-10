@@ -9,9 +9,7 @@ fn daily_temperatures(t: Vec<i32>) -> Vec<i32> {
 
     let mut stack: VecDeque<(usize, i32)> = VecDeque::new();
 
-    stack.push_back((0usize, t[0]));
-
-    for (i, el) in t.iter().skip(1).enumerate() {
+    for (i, el) in t.iter().enumerate() {
         while !stack.is_empty() && el > &stack.back().unwrap().1 {
             let current = stack.pop_back().unwrap();
             results[current.0] = ((i - current.0).try_into().unwrap());
