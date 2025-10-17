@@ -22,8 +22,6 @@ fn shortest_path(graph: Vec<Vec<i32>>, a: i32, b: i32) -> i32 {
                 for j in 0..current_node_neighbors.len() {
                     if visited.insert(current_node_neighbors[j]) {
                         queue.push_back(current_node_neighbors[j]);
-                    } else {
-                        continue;
                     }
                 }
             }
