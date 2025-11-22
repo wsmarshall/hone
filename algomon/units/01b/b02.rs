@@ -19,20 +19,18 @@ Explanation: The first true's index is 2.
  */
 
 fn find_boundary(arr: Vec<bool>) -> i32 {
-    let mut left = 0;
-    let mut right = arr.len();
-
-    let mut index: i32 = -1;
+    let mut left: usize = 0;
+    let mut right: usize = arr.len();
+    let mut ans: i32 = -1;
 
     while left < right {
         let mid = left + (right - left) / 2;
         if arr[mid] {
-            index = mid as i32;
+            ans = mid as i32;
             right = mid;
         } else {
             left = mid + 1;
         }
     }
-
-    index
+    ans
 }
