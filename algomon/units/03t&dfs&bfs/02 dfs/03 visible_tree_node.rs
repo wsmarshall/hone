@@ -1,3 +1,11 @@
+type Tree<T> = Option<Box<Node<T>>>;
+
+struct Node<T> {
+    val: T,
+    left: Tree<T>,
+    right: Tree<T>,
+}
+
 fn visible_tree_node(root: Tree<i32>) -> i32 {
     if let Some(n) = root {
         let max = n.val;
