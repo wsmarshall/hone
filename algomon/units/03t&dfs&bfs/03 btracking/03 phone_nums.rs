@@ -4,24 +4,21 @@ use std::fmt::Display;
 use std::io;
 
 fn dfs(
-    n: usize,
     start_index: usize,
+    length: usize,
+    number: &Vec<&str>,
+    map: &HashMap<&str, Vec<&str>>,
     path: &mut Vec<String>,
-    map: HashMap<&str, Vec<&str>>,
-    number: Vec<&str>,
-    res: &mut Vec<String>,
+    results: &mut Vec<String>,
 ) {
-    //is leaf
-    if start_index >= n {
-        res.push(path.join(""));
+    if start_index >= length {
+        results.push(path.join(""));
         return;
     }
-
-    //get edges
     if let Some(v) = map.get(number[start_index]) {
         for i in v {
             path.push(i.to_string());
-            dfs(n, start_index + 1, path, map.clone(), number.clone(), res);
+            dfs(start_index + 1, length, number, map, path, results);
             path.pop();
         }
     }
@@ -38,16 +35,15 @@ fn letter_combinations_of_phone_number(digits: String) -> Vec<String> {
         ("8", vec!["t", "u", "v"]),
         ("9", vec!["w", "x", "y", "z"]),
     ]);
-
     let mut number: Vec<&str> = digits.split("").collect();
     number.remove(0);
     number.pop();
 
-    let mut res = Vec::<String>::new();
-    let mut path = Vec::<String>::new();
+    let length = number.len();
+    let mut results: Vec<String> = vec![];
+    let mut path: Vec<String> = vec![];
 
-    let n = number.len();
-    dfs(n, 0, &mut path, map.clone(), number.clone(), &mut res);
+    dfs(0, length, &number, &map, &mut path, &mut results);
 
-    res
+    results
 }
