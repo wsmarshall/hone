@@ -11,10 +11,13 @@ fn dfs(
     path: &mut Vec<String>,
     results: &mut Vec<String>,
 ) {
+    //is leaf node
     if start_index >= length {
         results.push(path.join(""));
         return;
     }
+
+    //continue branching and path exploring
     if let Some(v) = map.get(number[start_index]) {
         for i in v {
             path.push(i.to_string());
@@ -35,6 +38,9 @@ fn letter_combinations_of_phone_number(digits: String) -> Vec<String> {
         ("8", vec!["t", "u", "v"]),
         ("9", vec!["w", "x", "y", "z"]),
     ]);
+
+    //only mutable here since when Rust collects()
+    //adds a "" entry to both head and tail of vector
     let mut number: Vec<&str> = digits.split("").collect();
     number.remove(0);
     number.pop();
