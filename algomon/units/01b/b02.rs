@@ -1,51 +1,36 @@
 /**
- * finds the first true (if present) in a sorted boolean array
- * (all falses, then all trues from left to right)
+ * Finding the First True in a Sorted Boolean Array
+
+An array of boolean values is divided into two sections:
+ The left section consists of all false,
+ and the right section consists of all true.
+
+ Find the First True in a Sorted Boolean Array of the right section,
+  i.e., the index of the first true element.
+
+  If there is no true element, return -1.
+
+EXAMPLE:
+Input: arr = [false, false, true, true, true]
+
+Output: 2
+
+Explanation: The first true's index is 2.
  */
 
-pub fn find_boundary(list: &[bool]) -> Option<usize> {
-    //returns option Some with wrapped index of target boundary
-    //or option None if not found
+fn find_boundary(arr: Vec<bool>) -> i32 {
     let mut left: usize = 0;
+    let mut right: usize = arr.len();
+    let mut ans: i32 = -1;
 
-    if list.is_empty() {
-        //accounting for the empty array input
-        return None;
-    }
-    let mut right: usize = list.len() - 1;
-
-    let mut mid: usize;
-
-    let mut boundary_index_initialized: bool = false;
-    //initialized for compiler only
-    let mut boundary_index: usize = 0;
-
-    while left <= right {
-        mid = left + ((right - left) / 2); //to avoid overflow
-        match list[mid] {
-            true => {
-                if !boundary_index_initialized {
-                    //initialize if false
-                    boundary_index_initialized = true;
-                }
-                boundary_index = mid;
-                if mid < 1 {
-                    //avoids underflow from usize indexing
-                    //particularly when right = 0
-                    break;
-                } else {
-                    // println!("left: {}, mid: {} right: {}", left, mid, right);
-                    right = mid - 1;
-                }
-            }
-            false => left = mid + 1,
+    while left < right {
+        let mid = left + (right - left) / 2;
+        if arr[mid] {
+            ans = mid as i32;
+            right = mid;
+        } else {
+            left = mid + 1;
         }
     }
-
-    if !boundary_index_initialized {
-        //value not present in input array
-        return None;
-    } else {
-        return Some(boundary_index);
-    }
+    ans
 }

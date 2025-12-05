@@ -1,0 +1,61 @@
+// Definition for a binary tree node.
+// #[derive(Debug, PartialEq, Eq)]
+// pub struct TreeNode {
+//   pub val: i32,
+//   pub left: Option<Rc<RefCell<TreeNode>>>,
+//   pub right: Option<Rc<RefCell<TreeNode>>>,
+// }
+// 
+// impl TreeNode {
+//   #[inline]
+//   pub fn new(val: i32) -> Self {
+//     TreeNode {
+//       val,
+//       left: None,
+//       right: None
+//     }
+//   }
+// }
+use std::rc::Rc;
+use std::cell::RefCell;
+impl Solution {
+    pub fn search_bst(root: Option<Rc<RefCell<TreeNode>>>, val: i32) -> Option<Rc<RefCell<TreeNode>>> {
+        if root.is_none() {
+            return None;
+        }
+
+        //let binding = root.clone().unwrap();
+        let b = root.clone().unwrap().borrow();
+
+        if b.val == val {
+            return root;
+        }
+        
+        let left = Self::search_bst(b.left.clone(), val);
+        if left.is_some() {
+            return left;
+        }
+
+        return Self::search_bst(b.right.clone(), val)
+        
+    }
+}
+RESULTS IN:
+Line 28: Char 17: error: temporary value dropped while borrowed (solution.rs)
+   |
+28 |         let b = root.clone().unwrap().borrow();
+   |                 ^^^^^^^^^^^^^^^^^^^^^         - temporary value is freed at the end of this statement
+   |                 |
+   |                 creates a temporary value which is freed while still in use
+29 |
+30 |         if b.val == val {
+   |            - borrow later used here
+   |
+help: consider using a `let` binding to create a longer lived value
+   |
+29 ~         let binding = root.clone().unwrap();
+30 ~         let b = binding.borrow();
+   |
+
+For more information about this error, try `rustc --explain E0716`.
+error: could not compile `prog` (bin "prog") due to 1 previous error
